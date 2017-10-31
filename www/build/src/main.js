@@ -27,7 +27,6 @@ Vue.config.productionTip = false
 
 import api from './api'
 import config from './config'
-console.log(config)
 Vue.prototype.$api = api
 Vue.prototype.$conf = config
 import messages from './locale'
