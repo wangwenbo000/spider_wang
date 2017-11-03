@@ -138,11 +138,15 @@ export default {
           font-size: 16px;
           font-weight: 100;
           margin: 10px;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+          color: #735DEE;
         }
       }
       span {
         font-size: 12px;
-        color: #ddd;
+        color: #9ea6b7;
         display: block;
         margin: 0 10px;
       }

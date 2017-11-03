@@ -8,7 +8,7 @@
           <img :src="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"></img>
           <a href="#" class="titleLink">{{$i18n.locale === 'cn'?list.cnName:list.enName}}</a>
         </router-link>
-        <span>{{list.cnName}}</span>
+        <span>{{$i18n.locale === 'cn'?list.enName:list.cnName}}</span>
       </li>
     </ul>
     <div class="empty" v-if="!filterList.count">
@@ -114,6 +114,7 @@ export default {
           overflow: hidden;
           text-overflow:ellipsis;
           white-space: nowrap;
+          color: #735DEE;
         }
       }
       span {

@@ -11,7 +11,7 @@ module.exports = class extends Base {
       case 'article':
         article = await this.model('article_content')
           .where({
-            titleEn: ['like', '%' + key + '%']
+            'titleEn|titleCn|describeCn|describeEn': ['like', '%' + key + '%']
           })
           .page(page, 10)
           .countSelect();
@@ -19,7 +19,7 @@ module.exports = class extends Base {
       case 'spider':
         spider = await this.model('spider')
           .where({
-            enName: ['like', '%' + key + '%']
+            'enName|cnName|describeCn|describeEn': ['like', '%' + key + '%']
           })
           .page(page, 10)
           .countSelect();

@@ -36,7 +36,7 @@
             <td>{{detialInfo.cnName}}</td>
           </tr>
           <tr>
-            <td>属：</td>
+            <td>亚科：</td>
             <td>{{detialInfo.cateName.name}}</td>
           </tr>
           <tr>
