@@ -150,15 +150,24 @@ export default {
   }
   .listItem{
   padding-top: 10px;
+  .content{
+    h3{
+      margin: 0;
+      a{
+        color:#735DEE;
+      }
+    }
+  }
   li{
     padding: 10px;
-    height: 120px;
+    height: 80px;
     background: #fff;
     display: flex;
     margin-top: 10px;
     position: relative;
     img{
-      width: 200px;
+      width: 140px;
+      height: 80px;
       display: block;
       margin-right: 20px;
     }
@@ -168,6 +177,7 @@ export default {
     }
     time{
       position: absolute;
+      color: #9ea6b7;
       right: 10px;
       top: 10px;
     }

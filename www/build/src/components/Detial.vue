@@ -227,17 +227,19 @@ export default {
       }
     },
     'detialInfo.local': function (o) {
-      console.log('a')
-      var point = []
-      point[0] = parseFloat(this.detialInfo.local.lat)
-      point[1] = parseFloat(this.detialInfo.local.lon)
-      new mapboxgl.Map({
-        container: this.$refs.mapbox,
-        style: this.$conf.mapStyle,
-        center: point,
-        zoom: this.detialInfo.local.zoom,
-        scrollZoom: false
-      })
+      console.log(this.$refs.mapbox)
+      setTimeout(() => {
+        var point = []
+        point[0] = parseFloat(this.detialInfo.local.lat)
+        point[1] = parseFloat(this.detialInfo.local.lon)
+        new mapboxgl.Map({
+          container: this.$refs.mapbox,
+          style: this.$conf.mapStyle,
+          center: point,
+          zoom: this.detialInfo.local.zoom,
+          scrollZoom: false
+        })
+      }, 1000)
     }
   },
   async created () {
@@ -425,9 +427,11 @@ export default {
       position: relative;
       .mapboxgl-canvas {
         width: 100%;
+        height: 300px;
       }
       .localName{
         position: absolute;
+        font-size: 12px;
         top: 10px;
         right: 10px;
         z-index: 100;

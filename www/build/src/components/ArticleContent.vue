@@ -42,6 +42,7 @@ export default {
     right: 10px;
     top: 10px;
     font-size: 22px;
+    color: #735DEE;
   }
   .contentWapper{
     width: 100%;
@@ -63,6 +64,7 @@ export default {
     }
     .content{
       width: 800px;
+      color: #424b68;
       background: #fff;
       position: absolute;
       left: 50%;
@@ -73,10 +75,18 @@ export default {
         height: 106px;
         position: relative;
         padding: 20px;
+        border-bottom: 1px solid #e4e8f1;
+        time{
+          color:#9ea6b7;
+        }
       }
       .a-content{
         padding: 20px;
+        a{
+          color: #735DEE;
+        }
       }
+
     }
   }
 </style>
