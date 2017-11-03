@@ -14,10 +14,14 @@
           <i class="iconfont">&#xe6e9;</i>
         </a>
         <div class="modal-title">
-          <h5>{{detialInfo.enName}}</h5>
+          <h5 v-show="$i18n.locale==='en'">{{detialInfo.enName}}</h5>
+          <h5 v-show="$i18n.locale==='cn'">{{detialInfo.cnName}}</h5>
         </div>
-        <p class="describe">
+        <p class="describe" v-show="$i18n.locale==='en'">
           {{detialInfo.describeEn}}
+        </p>
+        <p class="describe" v-show="$i18n.locale==='cn'">
+          {{detialInfo.describeCn}}
         </p>
         <table>
           <tr>
@@ -72,7 +76,7 @@
                 <div class="bar" :style="{width:detialInfo.Accessibility+'0%'}">
                   <span>{{detialInfo.Accessibility}}</span>
                 </div>
-                <span>专家</span>
+                <span>{{detialInfo.Accessibility > 5 ? '专家' : '初级'}}</span>
               </div>
             </td>
           </tr>
@@ -100,7 +104,8 @@
           </div>
         </div>
         <div class="content">
-          <p v-html="detialInfo.contentEn"></p>
+          <p v-html="detialInfo.contentEn" v-if="$i18n.locale==='en'"></p>
+          <p v-html="detialInfo.contentCn" v-if="$i18n.locale==='cn'"></p>
         </div>
       </div>
     </div>

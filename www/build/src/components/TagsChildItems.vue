@@ -111,11 +111,14 @@ export default {
         .titleLink{
           font-size: 16px;
           margin: 10px;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
         }
       }
       span {
         font-size: 12px;
-        color: #ddd;
+        color: #9ea6b7;
         display: block;
         margin: 0 10px;
       }
