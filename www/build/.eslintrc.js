@@ -4,11 +4,12 @@ module.exports = {
   root: true,
   parser: 'babel-eslint',
   parserOptions: {
-    
+
     sourceType: 'module'
   },
   "globals":{
-    "require":true
+    "require":true,
+    "mapboxgl":true
   },
   env: {
     browser: true,

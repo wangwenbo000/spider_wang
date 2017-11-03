@@ -11,6 +11,7 @@ const state = {
       min: 0,
       max: 0
     },
+    toxic: 0,
     category: 0,
     chart: [],
     cnName: '',
@@ -79,6 +80,7 @@ const mutations = {
     data.humidity = JSON.parse(data.humidity)
     data.local = JSON.parse(data.local)
     data.chart = data.chart.split(',')
+    data.toxic = parseInt(data.chart[1])
     state.detialData = data
   }
 }

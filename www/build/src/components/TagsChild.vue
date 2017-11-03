@@ -110,7 +110,6 @@ export default {
         }
         .titleLink{
           font-size: 16px;
-          font-weight: 100;
           margin: 10px;
         }
       }

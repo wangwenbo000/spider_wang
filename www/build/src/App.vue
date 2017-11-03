@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
-    <video src="./assets/mov.mp4" class="bgmov" autoplay loop>
+    <video src="./assets/mov.mp4" class="bgmov" autoplay muted playsinline loop>
       您的浏览器不支持 video 标签。
     </video>
     <div class="bgCover"></div>
@@ -18,6 +18,7 @@
 <script>
 import NavBar from '@/components/NavBar'
 import Spinner from '@/components/Spinner'
+require('iphone-inline-video')
 export default {
   name: 'app',
   watch: {
@@ -93,11 +94,11 @@ export default {
 }
 @font-face {
   font-family: 'iconfont';  /* project id 387362 */
-  src: url('//at.alicdn.com/t/font_387362_ynl5vkby7ig4x6r.eot');
-  src: url('//at.alicdn.com/t/font_387362_ynl5vkby7ig4x6r.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_387362_ynl5vkby7ig4x6r.woff') format('woff'),
-  url('//at.alicdn.com/t/font_387362_ynl5vkby7ig4x6r.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_387362_ynl5vkby7ig4x6r.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.eot');
+  src: url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont" !important;

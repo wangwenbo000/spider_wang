@@ -108,9 +108,9 @@
       <td>足展:</td>
       <td style="display:flex;border:none;align-items:center;">
         <strong>≤</strong>
-        <input type="range" name="span-min" min="1" max="10" v-model="info.span.min"/><span class="rangeNum">{{info.span.min}}cm</span>
+        <input type="range" name="span-min" min="1" max="40" v-model="info.span.min"/><span class="rangeNum">{{info.span.min}}cm</span>
         ---
-        <input type="range" name="span-max" min="1" max="10" v-model="info.span.max"/><span class="rangeNum">{{info.span.max}}cm</span>
+        <input type="range" name="span-max" min="1" max="40" v-model="info.span.max"/><span class="rangeNum">{{info.span.max}}cm</span>
         <span class="rangePreview">{{CSpan}}</span>
       </td>
       <td>体长:</td>
@@ -126,13 +126,13 @@
     <tr>
       <td>寿命:</td>
       <td colspan="3">
-        <strong>雄性：</strong>
+        <strong>磁性：</strong>
         <input type="range" name="body" min="0" max="50" v-model="info.females.min"/><span class="rangeNum">{{info.females.min}}岁</span>
         ---
         <input type="range" name="body" min="0" max="50" v-model="info.females.max"/><span class="rangeNum">{{info.females.max}}岁</span>
         <span class="rangePreview">{{CFemales}}</span>
         |
-        <strong>磁性：</strong>
+        <strong>雄性：</strong>
         <input type="range" name="body" min="0" max="50" v-model="info.males.min"/><span class="rangeNum">{{info.males.min}}岁</span>
         ---
         <input type="range" name="body" min="0" max="50" v-model="info.males.max"/><span class="rangeNum">{{info.males.max}}岁</span>
