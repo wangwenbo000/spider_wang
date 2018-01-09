@@ -37,15 +37,18 @@
           </tr>
           <tr>
             <td>亚科：</td>
-            <td>{{detialInfo.cateName.name}}</td>
+            <td>{{detialInfo.subfamily}}</td>
           </tr>
           <tr>
-            <td>速度：</td>
+            <td>成长速度：</td>
             <td>{{detialInfo.growth === 0 ? '慢' : '快'}}</td>
           </tr>
           <tr>
             <td>习性：</td>
-            <td>{{detialInfo.habit | habit}}</td>
+            <!-- <td>{{detialInfo.habit | habit}}</td> -->
+            <td>
+              <span class="table-num table-num-m" v-for="x in detialInfo.habit">{{x}}</span>
+            </td>
           </tr>
           <tr>
             <td>荨麻疹：</td>
@@ -69,7 +72,7 @@
               夜间：<span class="table-num">{{CTemperature.night}}</span>
             </td>
             <td>
-              饲养性：
+              饲养难度：
             </td>
             <td>
               <div class="accessibility">
@@ -86,7 +89,7 @@
               白天：<span class="table-num">{{CHumidity.day}}</span>
               夜间：<span class="table-num">{{CHumidity.night}}</span>
             </td>
-            <td>毒性：</td>
+            <td>稀有度：</td>
             <td>
               <div class="accessibility">
                 <div class="bar" :style="{width:detialInfo.toxic+'%'}">
@@ -162,14 +165,14 @@ export default {
         },
         radar: {
           // shape: 'circle',
-          // 足展大小，毒性，寿命，攻击性或者性格，提毛指数，爬行速度
+          // 足展大小，毒性，寿命，凶猛成都，提毛指数，敏捷度
           indicator: [
             { text: '足展大小', max: 100 },
             { text: '毒性', max: 100 },
             { text: '寿命', max: 100 },
-            { text: '攻击性或者性格', max: 100 },
+            { text: '凶猛程度', max: 100 },
             { text: '提毛指数', max: 100 },
-            { text: '爬行速度', max: 100 }
+            { text: '敏捷度', max: 100 }
           ]
         },
         series: [{
@@ -209,18 +212,18 @@ export default {
     this.$set(this.imageSwiper, this.imageList)
     this.swiper.update()
   },
-  filters: {
-    habit (n) {
-      switch (n) {
-        case 0:
-          return '穴栖'
-        case 1:
-          return '地栖'
-        case 2:
-          return '树栖'
-      }
-    }
-  },
+  // filters: {
+  //   habit (n) {
+  //     switch (n) {
+  //       case 0:
+  //         return '穴栖'
+  //       case 1:
+  //         return '地栖'
+  //       case 2:
+  //         return '树栖'
+  //     }
+  //   }
+  // },
   watch: {
     'detialInfo.chart': function (o) {
       this.bar.series[0].data[0].value = o
@@ -412,6 +415,9 @@ export default {
         border-radius: 50px;
         background: #e8e4ff;
         color:#735DEE;
+      }
+      .table-num-m{
+        margin: 0 2px;
       }
       tr {
         td {

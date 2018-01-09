@@ -16,7 +16,7 @@ module.exports = class extends Base {
     const id = this.post('id');
     const page = this.post('page');
     const list = await this.model('spider')
-      .where({category: id})
+      .where({category: id, status: 1})
       .page(page, 10)
       .field('id,cover,enName,cnName')
       .countSelect();

@@ -2,7 +2,7 @@ module.exports = class extends think.Model {
   get relation() {
     return {
       main_category: {
-        type: think.Model.HAS_ONE,
+        type: think.Model.BELONG_TO,
         key: 'category',
         fKey: 'id',
         name: 'cateName',
@@ -12,7 +12,7 @@ module.exports = class extends think.Model {
   }
 
   async getDetial(id) {
-    const detial = await this.where({id:id}).find();
+    const detial = await this.where({id: id}).find();
     return detial;
   }
 };

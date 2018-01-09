@@ -28,6 +28,12 @@ export default {
     isFormCom: {
       default: false
     },
+    isAllowPNode: {
+      default: false
+    },
+    isExpandAllNodes: {
+      default: false
+    },
     postUrl: ''
   },
   data () {
@@ -75,7 +81,10 @@ export default {
     }
     this.zTree = $.fn.zTree.getZTreeObj('treeDemo' + this.name)
     this.zTreeObj = $.fn.zTree.init($('#treeDemo' + this.name), this.setting)
-    // })
+    if (this.isExpandAllNodes) {
+      this.expandStatus = !this.expandStatus
+      this.zTreeObj.expandAll(this.isExpandAllNodes)
+    }
   },
   watch: {
     'addNewId': function (o) {
@@ -171,7 +180,7 @@ export default {
     },
     onAsyncSuccess (event, treeId, treeNode, msg) {
       // console.log(treeNode, msg)
-      this.zTreeObj.expandAll(true)
+      this.zTreeObj.expandAll(!this.isExpandAllNodes)
       this.loading = false
     },
     dataFilter (treeId, parentNode, childNodes) {
@@ -188,7 +197,7 @@ export default {
       if (this.isFormCom) return false
     },
     zTreeBeforeClick (treeId, treeNode, clickFlag) {
-      return !treeNode.isParent// 当是父节点 返回false 不让选取
+      return this.isAllowPNode ? true : !treeNode.isParent// 当是父节点 返回false 不让选取
     }
   }
 }
@@ -231,8 +240,8 @@ export default {
       margin: 0 0 0 10px;
       span{
         margin-left: 10px;
-        background: #ffff00;
-        color:#ff0000;
+        background: #19e065;
+        color:#ffffff;
       }
     }
     .treeToolBar{

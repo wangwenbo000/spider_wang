@@ -44,6 +44,8 @@ module.exports = class extends adminBase {
     data.humidity = JSON.stringify(data.humidity);
     data.local = JSON.stringify(data.local);
     data.date = think.datetime();
+    data.habit = data.habit.join(',');
+    data.subfamily = data.subfamily;
     switch (action) {
       case 'add':
         const add = await this.model('spider').add(data);

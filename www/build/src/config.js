@@ -6,5 +6,5 @@ module.exports = {
   mapZoom: 13,
   mapStyle: 'mapbox://styles/mapbox/light-v9',
   searchErrMsgTimeOut: 2000,
-  icp: '沪ICP备12345678号'
+  icp: '沪ICP备17040199号-1'
 }

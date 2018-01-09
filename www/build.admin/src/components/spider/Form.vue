@@ -54,6 +54,16 @@
       </td>
     </tr>
     <tr>
+      <td >亚科</td>
+      <td colspan="3" style="position:relative;">
+        <input type="text" @focus="subfamilyChoose=true" v-model="info.subfamily">
+        <div class="category-choose" style="height:300px;" v-if="subfamilyChoose">
+          <div class="close" @click="subfamilyChoose=false">❌</div>
+          <Category postUrl="apix/spider/getCateList" :name="'subfamilyChoose'" @nodeClick="pNodeClick" :isFormCom="true" :isAllowPNode="true" :isExpandAllNodes="true"></Category>
+        </div>
+      </td>
+    </tr>
+    <tr>
       <td>是否售卖:</td>
       <td>
         <input name="isScale" id="isScale1" type="radio" value="1" v-model="info.isScale"/>
@@ -80,7 +90,7 @@
         <input name="Urticating" type="radio" id="Urticating2" :value="0" v-model="info.Urticating"/>
         <label for="Urticating2">否</label>
       </td>
-      <td>速度</td>
+      <td>成长速度</td>
       <td>
         <input name="growth" type="radio" :value="1" v-model="info.growth"/>快
         <input name="growth" type="radio" :value="0" v-model="info.growth"/>慢
@@ -97,11 +107,14 @@
       </td>
       <td>习性:</td>
       <td>
-        <select name="" v-model="info.habit">
+        <!-- <select name="" v-model="info.habit">
           <option value="0">穴栖</option>
           <option value="1">地栖</option>
           <option value="2">树栖</option>
-        </select>
+        </select> -->
+        <input type="checkbox" value="穴栖" id="穴栖" v-model="info.habit">穴栖
+        <input type="checkbox" value="地栖" id="地栖" v-model="info.habit">地栖
+        <input type="checkbox" value="树栖" id="树栖" v-model="info.habit">树栖
       </td>
     </tr>
     <tr>
@@ -140,7 +153,7 @@
       </td>
     </tr>
     <tr>
-      <td>可饲养性:</td>
+      <td>饲养难度:</td>
       <td>
         <input type="range" name="Accessibility" min="1" max="10" v-model="info.Accessibility"/><span class="rangeNum">{{info.Accessibility}}</span>
       </td>
@@ -221,7 +234,7 @@
           <span class="rangeNum">{{info.chart[2]}}</span>
         </div>
         <div class="chartBar">
-          <span>攻击性或者性格：</span>
+          <span>凶猛程度：</span>
           <input type="range" name="body" min="0" max="100" v-model="info.chart[3]"/>
           <span class="rangeNum">{{info.chart[3]}}</span>
         </div>
@@ -231,7 +244,7 @@
           <span class="rangeNum">{{info.chart[4]}}</span>
         </div>
         <div class="chartBar">
-          <span>爬行速度：</span>
+          <span>敏捷度：</span>
           <input type="range" name="body" min="0" max="100" v-model="info.chart[5]"/>
           <span class="rangeNum">{{info.chart[5]}}</span>
         </div>
@@ -318,6 +331,7 @@ export default {
   data () {
     return {
       categoryChoose: false,
+      subfamilyChoose: false,
       categoryName: '',
       showMapHelp: false,
       coverName: '',
@@ -344,9 +358,9 @@ export default {
             { text: '足展大小', max: 100 },
             { text: '毒性', max: 100 },
             { text: '寿命', max: 100 },
-            { text: '攻击性或者性格', max: 100 },
+            { text: '凶猛程度', max: 100 },
             { text: '提毛指数', max: 100 },
-            { text: '爬行速度', max: 100 }
+            { text: '敏捷度', max: 100 }
           ]
         },
         series: [{
@@ -399,9 +413,10 @@ export default {
         isScale: 1,
         scalePlatform: 1,
         growth: 1,
-        habit: 0,
+        habit: [],
         Accessibility: 0,
         category: 0,
+        subfamily: '',
         scaleUrl: '',
         males: {
           min: 1,
@@ -620,6 +635,11 @@ export default {
         }
       })
       this.categoryChoose = false
+    },
+    pNodeClick (node) {
+      console.log(node)
+      this.info.subfamily = node.name
+      this.subfamilyChoose = false
     },
     beforeSend (newFile) {
       newFile.data.id = this.saveId

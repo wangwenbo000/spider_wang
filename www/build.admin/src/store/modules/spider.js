@@ -30,6 +30,8 @@ const mutations = {
     data.local = JSON.parse(data.local)
     state.detial = data
     state.image = payload.src
+    data.habit = data.habit.split(',')
+    data.chart = ''
   },
   delSource (state, payload) {
     const list = state.image.filter(value => {
@@ -78,7 +80,6 @@ const actions = {
         id: rootState.route.query.id
       }
     })
-    console.log(detial.data.data)
     commit('changeDetial', detial.data.data)
   },
   async delSource ({ commit }, data) {

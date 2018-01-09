@@ -27,7 +27,7 @@ const state = {
       max: 0
     },
     growth: 1,
-    habit: 0,
+    habit: [],
     humidity: {
       'day': { 'min': 0, 'max': 0 },
       'night': { 'min': 0, 'max': 0 }
@@ -81,6 +81,7 @@ const mutations = {
     data.local = JSON.parse(data.local)
     data.chart = data.chart.split(',')
     data.toxic = parseInt(data.chart[1])
+    data.habit = data.habit.split(',')
     state.detialData = data
   }
 }

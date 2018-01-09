@@ -140,11 +140,12 @@ a{
 }
 .bgmov{
   position: fixed;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  // min-width: 100vw;
+  // min-height: 100vh;
+  width: 100%;
+  height: 100vh;
   z-index: -100;
+  object-fit:cover;
   // background: url(./assets/bg.png) center;
   background-size: cover;
 }
