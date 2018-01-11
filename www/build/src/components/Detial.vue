@@ -75,12 +75,13 @@
               饲养难度：
             </td>
             <td>
-              <div class="accessibility">
+              <!-- <div class="accessibility">
                 <div class="bar" :style="{width:detialInfo.Accessibility+'0%'}">
                   <span>{{detialInfo.Accessibility}}</span>
                 </div>
                 <span>{{detialInfo.Accessibility > 5 ? '专家' : '初级'}}</span>
-              </div>
+              </div> -->
+              <Level :level-num="detialInfo.Accessibility"></Level>
             </td>
           </tr>
           <tr>
@@ -91,12 +92,13 @@
             </td>
             <td>稀有度：</td>
             <td>
-              <div class="accessibility">
+              <!-- <div class="accessibility">
                 <div class="bar" :style="{width:detialInfo.toxic+'%'}">
                   <span>{{detialInfo.toxic}}%</span>
                 </div>
-                <!-- <span>专家</span> -->
-              </div>
+                <span>专家</span>
+              </div> -->
+              <Level :level-num="detialInfo.rarity"></Level>
             </td>
           </tr>
         </table>
@@ -115,6 +117,7 @@
 </template>
 <script>
 import Share from '@/components/Share'
+import Level from '@/components/LevelCom'
 // import mapboxgl from 'mapbox-gl'
 import IEcharts from 'vue-echarts-v3/src/lite.vue'
 import 'echarts/lib/chart/radar'
@@ -127,7 +130,6 @@ export default {
     return {
       imageSwiper: [],
       swiperOption: {
-        // swiper optionss 所有的配置同swiper官方api配置
         autoplay: 3000,
         loop: true,
         effect: 'fade',
@@ -140,13 +142,7 @@ export default {
         paginationClickable: true,
         mousewheelControl: false,
         observeParents: true,
-        // if you need use plugins in the swiper, you can config in here like this
-        // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
         debugger: true
-        // swiper callbacks
-        // swiper的各种回调函数也可以出现在这个对象中，和swiper官方一样
-        // onTransitionStart (swiper) {
-        // }
       },
       loading: true,
       bar: {
@@ -204,7 +200,8 @@ export default {
   },
   components: {
     IEcharts,
-    Share
+    Share,
+    Level
   },
   mounted () {
     this.bar.series[0].data[0].value = this.detialInfo.chart
@@ -212,18 +209,6 @@ export default {
     this.$set(this.imageSwiper, this.imageList)
     this.swiper.update()
   },
-  // filters: {
-  //   habit (n) {
-  //     switch (n) {
-  //       case 0:
-  //         return '穴栖'
-  //       case 1:
-  //         return '地栖'
-  //       case 2:
-  //         return '树栖'
-  //     }
-  //   }
-  // },
   watch: {
     'detialInfo.chart': function (o) {
       this.bar.series[0].data[0].value = o
@@ -342,6 +327,7 @@ export default {
     position: absolute;
     left: 50%;
     margin-left: -400px;
+    margin-bottom: 20px;
     top: 100px;
     z-index: 200;
     color: #424b68;

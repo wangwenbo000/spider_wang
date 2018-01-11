@@ -55,10 +55,11 @@ export default {
   }
   .article-cate{
     display: flex;
+    justify-content: space-between;
     li{
-      width: 160px;
+      width: 214px;
       height: 78px;
-      margin-right: 8px;
+      // margin-right: 8px;
       position: relative;
       cursor: pointer;
       transition: all .3s;
@@ -71,6 +72,7 @@ export default {
         color: #fff;
         left: 6px;
         bottom: 6px;
+        text-shadow: 1px 1px 0 #735DEE;
       }
     }
   }

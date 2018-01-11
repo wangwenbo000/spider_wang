@@ -55,12 +55,21 @@
     </tr>
     <tr>
       <td >亚科</td>
-      <td colspan="3" style="position:relative;">
+      <td style="position:relative;">
         <input type="text" @focus="subfamilyChoose=true" v-model="info.subfamily">
         <div class="category-choose" style="height:300px;" v-if="subfamilyChoose">
           <div class="close" @click="subfamilyChoose=false">❌</div>
           <Category postUrl="apix/spider/getCateList" :name="'subfamilyChoose'" @nodeClick="pNodeClick" :isFormCom="true" :isAllowPNode="true" :isExpandAllNodes="true"></Category>
         </div>
+      </td>
+      <td>稀有度</td>
+      <td>
+        <select name="" v-model="info.rarity">
+          <option :value="0" selected>流通级</option>
+          <option :value="1">玩家级</option>
+          <option :value="2">专家级</option>
+          <option :value="3">梦幻级</option>
+        </select>
       </td>
     </tr>
     <tr>
@@ -155,7 +164,13 @@
     <tr>
       <td>饲养难度:</td>
       <td>
-        <input type="range" name="Accessibility" min="1" max="10" v-model="info.Accessibility"/><span class="rangeNum">{{info.Accessibility}}</span>
+        <!-- <input type="range" name="Accessibility" min="1" max="10" v-model="info.Accessibility"/><span class="rangeNum">{{info.Accessibility}}</span> -->
+        <select name="" v-model="info.Accessibility">
+          <option :value="0" selected>流通级</option>
+          <option :value="1">玩家级</option>
+          <option :value="2">专家级</option>
+          <option :value="3">梦幻级</option>
+        </select>
       </td>
       <td>
         地域: <br/>
@@ -414,6 +429,7 @@ export default {
         scalePlatform: 1,
         growth: 1,
         habit: [],
+        rarity: 0,
         Accessibility: 0,
         category: 0,
         subfamily: '',
@@ -504,10 +520,9 @@ export default {
     if (this.$route.query.action === 'edit') {
       await this.getDetial()
       this.info = { ...this.$store.state.Spider.detial }
+      // this.info = Object.assign({}, this.$store.state.Spider.detial)
       this.editFiles = this.$store.state.Spider.image
       this.coverName = this.info.cover
-      // 设置图表
-      this.info.chart = this.info.chart.split(',')
     }
   },
   mounted () {
@@ -615,6 +630,7 @@ export default {
     async saveDraft () {
       const action = this.$route.query.action
       this.info.status = 0
+      this.info.chart = this.info.chart.join(',')
       const id = await this.addSpiderData({
         data: this.info,
         action: action

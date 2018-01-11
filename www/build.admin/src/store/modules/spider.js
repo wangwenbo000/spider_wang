@@ -28,10 +28,16 @@ const mutations = {
     data.temperature = JSON.parse(data.temperature)
     data.humidity = JSON.parse(data.humidity)
     data.local = JSON.parse(data.local)
-    state.detial = data
-    state.image = payload.src
     data.habit = data.habit.split(',')
-    data.chart = ''
+
+    if (!data.chart) {
+      data.chart = ['0', '0', '0', '0', '0', '0']
+    } else {
+      data.chart = data.chart.split(',')
+    }
+
+    state.detial = Object.assign({}, data)
+    state.image = payload.src
   },
   delSource (state, payload) {
     const list = state.image.filter(value => {
