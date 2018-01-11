@@ -1,5 +1,5 @@
 module.exports = {
-  qnUrl: process.env.NODE_ENV === 'development' ? 'http://oux1h5x17.bkt.clouddn.com/' : 'http://src.tsreptile.com',
+  qnUrl: process.env.NODE_ENV === 'development' ? 'http://oux1h5x17.bkt.clouddn.com/' : 'http://src.tsreptile.com/',
   apiBaseUrl: '/api/',
   defaultLang: 'en',
   articleFolder: 'category/article/',
