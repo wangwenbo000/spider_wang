@@ -10,6 +10,15 @@ import { sync } from 'vuex-router-sync'
 sync(store, router)
 import VueScrollTo from 'vue-scrollto'
 Vue.use(VueScrollTo)
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: 'http://oux1h5x17.bkt.clouddn.com/error.jpg',
+  loading: 'http://oux1h5x17.bkt.clouddn.com/loading.jpg',
+  attempt: 1,
+  // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
+  listenEvents: ['scroll']
+})
 
 Vue.use(zPageNav)
 import VueI18n from 'vue-i18n'

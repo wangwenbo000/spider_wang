@@ -5,7 +5,7 @@
           :key="list.id">
         <router-link tag="a"
                      :to="{name:'Detial',params:{id:list.id}}">
-          <img :src="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"></img>
+          <img v-lazy="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"></img>
           <a href="#" class="titleLink">{{$i18n.locale === 'cn'?list.cnName:list.enName}}</a>
         </router-link>
         <span>{{$i18n.locale === 'cn'?list.enName:list.cnName}}</span>

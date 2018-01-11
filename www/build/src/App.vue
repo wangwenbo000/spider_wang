@@ -46,6 +46,18 @@ export default {
 </script>
 
 <style lang='scss'>
+img[lazy=loading] {
+    /*your style here*/
+}
+img[lazy=error],img[lazy=loaded] {
+  /*your style here*/
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
 .fade-leave-active {
   transition: opacity .3s
 }
@@ -61,6 +73,22 @@ export default {
   animation-name: fadeOutDown;
   animation-duration: .3s;
   animation-fill-mode: both;
+}
+@-webkit-keyframes fadeIn {
+from {
+    opacity: 0;
+}
+to {
+    opacity: 1;
+}
+}
+@keyframes fadeIn {
+from {
+    opacity: 0;
+}
+to {
+    opacity: 1;
+}
 }
 @keyframes fadeInUp {
   from {
