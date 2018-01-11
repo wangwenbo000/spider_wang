@@ -1,18 +1,13 @@
 <template>
-<ul class="levelBox">
-  <li :style="{opacity:.25}" v-if="levelNum>=0">
-    <span>流通级</span>
-  </li>
-  <li :style="{opacity:.5}" v-if="levelNum>=1">
-    <span>玩家级</span>
-  </li>
-  <li :style="{opacity:.75}" v-if="levelNum>=2">
-    <span>专业级</span>
-  </li>
-  <li :style="{opacity:1}" v-if="levelNum>=3">
-    <span>梦幻级</span>
-  </li>
-</ul>
+<span class="levelBox-wrapper">
+  <ul class="levelBox">
+    <li v-if="levelNum>=0" v-for="l in levelData">
+      <span>{{l}}</span>
+    </li>
+  </ul>
+  <div class="levelBar" :style="{width:100/levelData.length*(levelNum)+'%'}"></div>
+</span>
+
 </template>
 <script>
 export default {
@@ -20,20 +15,41 @@ export default {
   props: {
     levelNum: {
       default: 0
+    },
+    levelData: {
+      default: []
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.levelBox{
+.levelBox-wrapper{
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  border-radius: 20px;
+  height: 20px;
+  background: #dfdfdf;
+  .levelBar{
+    position: absolute;
+    width: 20%;
+    height: 20px;
+    background:#735DEE;
+    border-radius: 20px;
+    top: 0;
+    z-index: 1;
+    transition: width 2s;
+  }
+  .levelBox{
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  position: absolute;
+  z-index: 2;
+  top: 0;
   li{
-    width: 60px;
+    width: 100%;
     height: 20px;
     margin-right: 1px;
-    background: #735DEE;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -51,4 +67,6 @@ export default {
     }
   }
 }
+}
+
 </style>

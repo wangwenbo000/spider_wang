@@ -59,7 +59,7 @@
           <tr>
             <td>预期寿命</td>
             <td>
-              磁性：<span class="table-num">{{CFemales}}</span>
+              雌性：<span class="table-num">{{CFemales}}</span>
               雄性：<span class="table-num">{{CMales}}</span>
             </td>
             <td>足展：</td>
@@ -81,7 +81,7 @@
                 </div>
                 <span>{{detialInfo.Accessibility > 5 ? '专家' : '初级'}}</span>
               </div> -->
-              <Level :level-num="detialInfo.Accessibility"></Level>
+              <Level :level-num="detialInfo.Accessibility" :level-data="['入门级','玩家级','专家级','梦幻级']"></Level>
             </td>
           </tr>
           <tr>
@@ -98,7 +98,7 @@
                 </div>
                 <span>专家</span>
               </div> -->
-              <Level :level-num="detialInfo.rarity"></Level>
+              <Level :level-num="detialInfo.rarity" :level-data="['常见','普通','稀有','罕见','传说']"></Level>
             </td>
           </tr>
         </table>
@@ -371,29 +371,29 @@ export default {
       border-collapse: separate;
       border-spacing: 0 0;
       font-size: 14px;
-      .accessibility{
-        width: 100%;
-        height: 30px;
-        background: #F0F0F0;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        span{
-          position: absolute;
-          right: 10px;
-        }
-        .bar{
-          height: 30px;
-          background: #735DEE;
-          transition: width .3s;
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          color:#fff;
-        }
-      }
+      // .accessibility{
+      //   width: 100%;
+      //   height: 30px;
+      //   background: #F0F0F0;
+      //   position: relative;
+      //   display: flex;
+      //   align-items: center;
+      //   justify-content: space-between;
+      //   span{
+      //     position: absolute;
+      //     right: 10px;
+      //   }
+      //   .bar{
+      //     height: 30px;
+      //     background: #735DEE;
+      //     transition: width .3s;
+      //     position: relative;
+      //     display: flex;
+      //     align-items: center;
+      //     justify-content: flex-end;
+      //     color:#fff;
+      //   }
+      // }
       .table-num {
         font-size: 14px;
         border: 1px solid #735DEE;

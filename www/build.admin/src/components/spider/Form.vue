@@ -65,10 +65,11 @@
       <td>稀有度</td>
       <td>
         <select name="" v-model="info.rarity">
-          <option :value="0" selected>流通级</option>
-          <option :value="1">玩家级</option>
-          <option :value="2">专家级</option>
-          <option :value="3">梦幻级</option>
+          <option :value="1" selected>常见</option>
+          <option :value="2">普通</option>
+          <option :value="3">稀有</option>
+          <option :value="4">罕见</option>
+          <option :value="5">传说</option>
         </select>
       </td>
     </tr>
@@ -166,10 +167,10 @@
       <td>
         <!-- <input type="range" name="Accessibility" min="1" max="10" v-model="info.Accessibility"/><span class="rangeNum">{{info.Accessibility}}</span> -->
         <select name="" v-model="info.Accessibility">
-          <option :value="0" selected>流通级</option>
-          <option :value="1">玩家级</option>
-          <option :value="2">专家级</option>
-          <option :value="3">梦幻级</option>
+          <option :value="1" selected>入门级</option>
+          <option :value="2">玩家级</option>
+          <option :value="3">专家级</option>
+          <option :value="4">梦幻级</option>
         </select>
       </td>
       <td>
