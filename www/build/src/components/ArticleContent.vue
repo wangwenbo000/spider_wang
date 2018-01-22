@@ -69,6 +69,7 @@ export default {
       position: absolute;
       left: 50%;
       margin-left: -380px;
+      margin-bottom: 20px;
       top: 100px;
       z-index: 200;
       .article-header{

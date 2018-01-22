@@ -163,6 +163,8 @@ export default {
     var E = window.wangEditor
     this.editorCn = new E('#contentCn')
     this.editorEn = new E('#contentEn')
+    this.editorCn.customConfig.pasteFilterStyle = false
+    this.editorEn.customConfig.pasteFilterStyle = false
     this.editorCn.customConfig.onchange = (html) => {
       this.info.contentCn = html
     }
