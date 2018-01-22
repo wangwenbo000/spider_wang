@@ -306,7 +306,7 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: rgba(28, 31, 36, 0.72);
+    background: rgba(28, 31, 36, 0.9);
     top: 0;
     left: 0;
     bottom: 0;
@@ -328,10 +328,12 @@ export default {
     left: 50%;
     margin-left: -400px;
     margin-bottom: 20px;
-    top: 100px;
+    top: 70px;
     z-index: 200;
     color: #424b68;
-    box-shadow: 0 0 10px rgba(28, 31, 36, 0.42);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.24);
+    border-radius: 3px;
+    overflow: hidden;
     .close {
       width: 30px;
       height: 30px;

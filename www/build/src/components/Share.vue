@@ -38,7 +38,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .share{
-  width: 50px;
+  width: 36px;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -46,12 +46,12 @@ export default {
   margin-left: 420px;
   bottom: 20px;
   a{
-    height: 50px;
+    height: 36px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
   }
   .qq{
