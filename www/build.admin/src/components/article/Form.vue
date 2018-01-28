@@ -91,9 +91,9 @@
       </td>
     </tr>
     <tr>
-      <td colspan="4" style="background:#fff;padding:0;">
+      <td colspan="4" style="background:#efefef;padding:0;">
         <div class="editorTitle">中文详情描述:</div>
-        <div id="contentCn" style="color:#2b2b2b;"></div>
+        <script id="contentCn" style="color:#2b2b2b;" name="content" type="text/plain"></script>
       </td>
     </tr>
     <tr>
@@ -159,20 +159,34 @@ export default {
       return this.$store.state.Article.image
     }
   },
+  destroyed () {
+    console.log('a')
+    this.editor.destroy()
+  },
   mounted () {
-    var E = window.wangEditor
-    this.editorCn = new E('#contentCn')
-    this.editorEn = new E('#contentEn')
-    this.editorCn.customConfig.pasteFilterStyle = false
-    this.editorEn.customConfig.pasteFilterStyle = false
-    this.editorCn.customConfig.onchange = (html) => {
-      this.info.contentCn = html
-    }
-    this.editorEn.customConfig.onchange = (html) => {
-      this.info.contentEn = html
-    }
-    this.editorCn.create()
-    this.editorEn.create()
+    // var E = window.wangEditor
+    // this.editorCn = new E('#contentCn')
+    // this.editorEn = new E('#contentEn')
+    // this.editorCn.customConfig.pasteFilterStyle = false
+    // this.editorEn.customConfig.pasteFilterStyle = false
+    // this.editorCn.customConfig.onchange = (html) => {
+    //   this.info.contentCn = html
+    // }
+    // this.editorEn.customConfig.onchange = (html) => {
+    //   this.info.contentEn = html
+    // }
+    // this.editorCn.create()
+    // this.editorEn.create()
+    this.editor = UE.getEditor('contentCn', {
+      // autoHeightEnabled: true,
+      // autoFloatEnabled: true,
+      initialFrameWidth: 776,
+      topOffset: 51
+      // initialFrameHeight: 500
+    })
+    this.editor.addListener('ready', () => {
+      this.editor.setContent(this.info.contentCn)
+    })
     this.info.category = parseInt(this.$route.query.cate)
     this.categoryName = this.$route.query.name
   },
@@ -182,8 +196,9 @@ export default {
       this.categoryName = o.name
     },
     'info': function (o) {
-      this.editorCn.txt.html(o.contentCn)
-      this.editorEn.txt.html(o.contentEn)
+      this.editor.addListener('ready', () => {
+        this.editor.setContent(o.contentCn)
+      })
     }
   },
   methods: {
@@ -197,8 +212,12 @@ export default {
         path: this.$route.query.redirect
       })
     },
+    setEditorContent () {
+      this.info.contentCn = this.editor.getContent()
+    },
     async saveDraft () {
       const action = this.$route.query.action
+      this.setEditorContent()
       this.info.status = 0
       const add = await this.addArticle({
         data: this.info,
@@ -213,6 +232,7 @@ export default {
       const result = await this.$validator.validateAll()
       const action = this.$route.query.action
       if (result) {
+        this.setEditorContent()
         this.info.status = 1
         const add = await this.addArticle({
           data: this.info,
@@ -285,6 +305,7 @@ export default {
   padding: 10px;
   flex-grow: 1;
   overflow-y: scroll;
+  clear: both;
   h1{
     margin: 0 0 10px 0;
     span{

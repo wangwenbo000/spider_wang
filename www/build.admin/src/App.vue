@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style lang="scss">
+.edui-editor{
+  margin: 0 auto;
+}
 body{
   margin: 0;
   padding: 0;

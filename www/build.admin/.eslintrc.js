@@ -10,7 +10,8 @@ module.exports = {
     browser: true,
   },
   globals:{
-    $:true
+    $:true,
+    UE:true
   },
   // required to lint *.vue files
   plugins: [

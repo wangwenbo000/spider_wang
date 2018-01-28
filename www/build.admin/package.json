@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "js-md5": "^0.6.0",
     "vee-validate": "^2.0.0-rc.14",
     "vue": "^2.3.3",

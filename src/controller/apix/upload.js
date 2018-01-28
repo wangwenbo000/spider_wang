@@ -1,5 +1,6 @@
 const adminBase = require('../adminBase.js');
 import qiniu from 'node-qiniu';
+import ueConfig from './uploadConfig'
 qiniu.config({
   access_key: 'gjOuGOi_3b3HkMoXZozSf6ZaIqP8ep-4BzZuSCii',
   secret_key: 'xQS6qsBID8R-BKeyU1uEc5YKukyS21B6Cu-H5Mqa'
@@ -58,5 +59,16 @@ module.exports = class extends adminBase {
     await this.model('image').where({id: id, uid: 1}).delete();
     await imagesBucket.key(key).remove();
     return this.success();
+  }
+  async eUploadAction() {
+    var action = this.get();
+    switch (action.action) {
+      case 'config':
+        this.json(ueConfig);
+        break;
+      case 'uploadimage':
+      console.log(this.file())
+        break;
+    }
   }
 };
