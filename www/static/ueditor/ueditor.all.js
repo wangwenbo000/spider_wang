@@ -17602,7 +17602,6 @@ UE.plugins['autofloat'] = function() {
             me.addListener('keydown', defer_updateFloating);
 
             //适用于在DIV scrollbox中滚动，但页面不滚动的浮动toolbar
-            console.log(UEDITOR_CONFIG.childScrollNode)
             var scrollBox = document.querySelector(UEDITOR_CONFIG.childScrollNode);
             domUtils.on(scrollBox, ['scroll','resize'], updateFloating);
 

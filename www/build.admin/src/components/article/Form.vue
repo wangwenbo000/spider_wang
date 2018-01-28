@@ -92,7 +92,7 @@
     </tr>
     <tr>
       <td colspan="4" style="background:#efefef;padding:0;">
-        <div class="editorTitle">中文详情描述:</div>
+        <div class="editorTitle">中文详情描述: <span v-show="editWaitSign" style="color:#ff0000;background:yellow;"><strong>🕕 文章加载中,请勿刷新页面... 两秒没反应请刷新</strong></span></div>
         <script id="contentCn" style="color:#2b2b2b;" name="content" type="text/plain"></script>
       </td>
     </tr>
@@ -117,6 +117,7 @@ export default {
       categoryName: '',
       editFiles: [],
       saveId: null,
+      editWaitSign: false,
       info: {
         titleCn: '',
         titleEn: '',
@@ -186,6 +187,13 @@ export default {
     })
     this.editor.addListener('ready', () => {
       this.editor.setContent(this.info.contentCn)
+      if (this.info.contentCn === '') {
+        this.editWaitSign = true
+        setTimeout(() => {
+          this.editor.setContent(this.info.contentCn)
+          this.editWaitSign = false
+        }, 2000)
+      }
     })
     this.info.category = parseInt(this.$route.query.cate)
     this.categoryName = this.$route.query.name
@@ -194,12 +202,12 @@ export default {
     '$route.query': function (o) {
       this.info.category = o.cate
       this.categoryName = o.name
-    },
-    'info': function (o) {
-      this.editor.addListener('ready', () => {
-        this.editor.setContent(o.contentCn)
-      })
     }
+    // 'info': function (o) {
+    //   this.editor.addListener('ready', () => {
+    //     this.editor.setContent(o.contentCn)
+    //   })
+    // }
   },
   methods: {
     ...mapActions([
