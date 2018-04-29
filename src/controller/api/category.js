@@ -18,7 +18,7 @@ module.exports = class extends Base {
     const list = await this.model('spider')
       .where({category: id, status: 1})
       .page(page, 10)
-      .field('uuid,cover,enName,cnName,scalePlatform')
+      .field('id,uuid,cover,enName,cnName,scalePlatform')
       .countSelect();
     return this.success(list);
   }
