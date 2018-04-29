@@ -58,7 +58,7 @@
         </tr>
         <tr>
           <td>成长速度：</td>
-          <td>{{detialInfo.growth === 0 ? '慢' : '快'}}</td>
+          <td>{{growSpeed}}</td>
         </tr>
         <tr>
           <td>习性：</td>
@@ -274,6 +274,18 @@ export default {
     },
     imageList () {
       return this.$store.state.spider.image
+    },
+    growSpeed () {
+      switch (this.detialInfo.growth) {
+        case 0:
+          return '极慢'
+        case 1:
+          return '缓慢'
+        case 3:
+          return '快'
+        case 4:
+          return '飞速'
+      }
     },
     CSpan () {
       return '≤' + this.detialInfo.span.min + 'cm -' + this.detialInfo.span.max + 'cm'
