@@ -24,6 +24,7 @@ export default new Router({
     {
       path: '/admin',
       name: 'Admin',
+      redirect: '/list/Acanthopelma/18/page/1',
       component: AdminPanel,
       children: [
         {

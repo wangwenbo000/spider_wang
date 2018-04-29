@@ -35,6 +35,13 @@ module.exports = {
         pathRewrite: {
           '^/api': '/api'
         }
+      },
+      '/static': {
+        target: 'http://127.0.0.1:8360',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/static': '/static'
+        }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

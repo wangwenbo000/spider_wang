@@ -2,20 +2,18 @@
 <div>
 <ul class="listItem">
   <li v-for="list in list.data" :key="list.id">
-    <img :src="$conf.qnUrl+list.cover+'?imageView2/5/w/200/h/120'" alt="">
+    <img :src="$conf.qnUrl+list.cover+'?imageView2/1/w/200/h/120'" alt="">
     <div class="content">
-      <h3>
-        <router-link tag="a"
-                     :to="{
-                        name:'Articlecontent',
-                        params:{id:list.id}
-                       }">
-                       {{list.titleCn}}
-                       </router-link>
-      </h3>
+      <router-link tag="a"
+                  :to="{
+                    name:'Articlecontent',
+                    params:{id:list.id}
+                    }">
+                      {{list.titleCn.substring(0,24)+(list.titleCn.length>24?'...':'')}}
+                      </router-link>
       <span>{{list.describeCn}}</span>
+      <time>🕐 {{list.date}}</time>
     </div>
-    <time>{{list.date}}</time>
   </li>
 </ul>
 <div class="empty" v-if="!list.count">
@@ -28,7 +26,7 @@
           :page-handler="pageHandler"
           :create-url="createUrl"></zpagenav>
 
-<transition name="fadeIn">
+<transition name="fadeIn" mode="out-in">
   <router-view></router-view>
 </transition>
 </div>
@@ -68,48 +66,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .empty{
-    width: 100%;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    font-size: 22px;
-    color:#735DEE;
-  }
-.listItem{
-  padding-top: 10px;
-  .content{
-    h3{
-      margin: 0;
-      a{
-        color:#735DEE;
-      }
-    }
-  }
-  li{
-    padding: 10px;
-    height: 80px;
-    background: #fff;
-    display: flex;
-    margin-top: 10px;
-    position: relative;
-    img{
-      width: 140px;
-      height: 80px;
-      display: block;
-      margin-right: 20px;
-    }
-    span{
-      font-size: 12px;
-      color: #666;
-    }
-    time{
-      position: absolute;
-      color: #9ea6b7;
-      right: 10px;
-      top: 10px;
-    }
-  }
-}
+@import './style/a-panel';
 </style>
 

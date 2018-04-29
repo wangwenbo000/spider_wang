@@ -2,7 +2,7 @@
   <div class="hello">
     <Search></Search>
     <Tags></Tags>
-    <transition name="fadeIn">
+    <transition name="fadeIn" mode="out-in">
       <router-view>
       </router-view>
     </transition>
@@ -19,7 +19,7 @@ import {
   mapMutations,
   mapState } from 'vuex'
 export default {
-  name: 'main',
+  name: 'main-frame',
   components: {
     Tags,
     Articles,

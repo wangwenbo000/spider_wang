@@ -1,48 +1,51 @@
 <template>
-  <div class="searchRes">
+  <div class="panel articlelist">
     <h2>🕷 {{$t('message.searchResMsg',{num:SearchRes.obj.count,keyword:$route.params.key})}}</h2>
-    <i class="iconfont close">
-      <router-link tag="a" :to="{name:'Main'}">
-          &#xe6e9;
-        </router-link>
-      </i>
+      <router-link tag="a" :to="{name:'Main'}" class="iconfont close">
+        &#xe655;
+      </router-link>
     <div v-if="SearchRes.type==='spider'">
-      <ul class="cateList">
-      <li v-for="list in SearchRes.obj.data"
-          :key="list.id">
-        <router-link tag="a"
-                     :to="{name:'Detial',params:{id:list.id}}">
-          <img :src="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"></img>
-          <a class="titleLink">{{list.enName}}</a>
-        </router-link>
-        <span>{{list.cnName}}</span>
-      </li>
-    </ul>
+      <ul class="panel-items">
+        <li v-for="list in SearchRes.obj.data"
+            :key="list.id">
+          <router-link tag="a"
+                      :to="{name:'searchZzDetial',params:{id:list.uuid}}">
+            <img v-lazy="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"/>
+            <span class="isTao" v-if="list.scalePlatform===0">
+              <i class="iconfont">&#xe709;</i>
+            </span>
+            <a href="#" class="titleLink">{{$i18n.locale === 'cn'?list.cnName:list.enName}}</a>
+          </router-link>
+          <span>{{$i18n.locale === 'cn'?list.enName:list.cnName}}</span>
+        </li>
+      </ul>
     </div>
     <div v-if="SearchRes.type==='article'">
       <ul class="listItem">
-      <li v-for="list in SearchRes.obj.data" :key="list.id">
-      <img :src="$conf.qnUrl+list.cover+'?imageView2/5/w/200/h/120'" alt="">
-      <div class="content">
-      <h3>
-        <router-link tag="a"
-                      :to="{
-                        name:'Articlecontent',
-                        params:{id:list.id}
-                        }">
-                        {{list.titleCn}}
-                        </router-link>
-      </h3>
-      <span>{{list.describeCn}}</span>
-      </div>
-      <time>{{list.date}}</time>
-      </li>
+        <li v-for="list in SearchRes.obj.data" :key="list.id">
+        <img v-lazy="$conf.qnUrl+list.cover+'?imageView2/5/w/200/h/120'" alt="">
+        <div class="content">
+            <router-link tag="a"
+                  :to="{
+                    name:'searchArticlecontent',
+                    params:{id:list.id}
+                    }">
+                      {{list.titleCn.substring(0,24)+(list.titleCn.length>24?'...':'')}}
+                      </router-link>
+          <span>{{list.describeCn}}</span>
+          <time>{{list.date}}</time>
+        </div>
+        </li>
       </ul>
     </div>
+    <transition name="fadeIn" mode="out-in">
+      <router-view></router-view>
+    </transition>
     <div class="empty" v-if="!SearchRes.obj.count">
       {{$t('message.empty')}}
     </div>
     <zpagenav :page="SearchRes.obj.currentPage"
+          v-if="SearchRes.obj.count"
           :page-size="SearchRes.obj.pagesize"
           :total="SearchRes.obj.count"
           :max-link="5"
@@ -85,108 +88,23 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.empty{
-  color:#735DEE;
-  text-align: center;
-  width: 100%;
-}
-  .searchRes{
-    width: 1048px;
-    position: relative;
-    background: #F3F3F3;
-    position: absolute;
-    top: 120px;
-    left: 50%;
-    margin-left: -540px;
-    padding: 16px;
-      .close{
+@import './style/a-panel';
+@import './style/panel';
+.panel{
+  h2{
+    text-align: center;
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #D6D6D6;
+    font-size: 32px;
+  }
+  .close{
     font-size: 32px;
     position: absolute;
     right: 10px;
-    top: 10px;
-  }
-    h2{
-      text-align: center;
-      margin: 0 0 20px 0;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #D6D6D6;
-    }
-    .cateList {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-
-    li {
-      width: 204px;
-      height: 240px;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      margin-right: 7px;
-      margin-top: 7px;
-      &:nth-child(5n+0) {
-        margin-right: 0;
-      }
-      a{
-        display: block;
-        img {
-          display: block;
-          width: 100%;
-          height: 170px;
-        }
-        .titleLink{
-          font-size: 16px;
-          font-weight: 100;
-          margin: 10px;
-          overflow: hidden;
-          text-overflow:ellipsis;
-          white-space: nowrap;
-          color: #735DEE;
-        }
-      }
-      span {
-        font-size: 12px;
-        color: #9ea6b7;
-        display: block;
-        margin: 0 10px;
-      }
-    }
-  }
-  .listItem{
-  padding-top: 10px;
-  .content{
-    h3{
-      margin: 0;
-      a{
-        color:#735DEE;
-      }
-    }
-  }
-  li{
-    padding: 10px;
-    height: 80px;
-    background: #fff;
-    display: flex;
-    margin-top: 10px;
-    position: relative;
-    img{
-      width: 140px;
-      height: 80px;
-      display: block;
-      margin-right: 20px;
-    }
-    span{
-      font-size: 12px;
-      color: #666;
-    }
-    time{
-      position: absolute;
-      color: #9ea6b7;
-      right: 10px;
-      top: 10px;
-    }
+    top: 20px;
+    color: #D6D6D6;
   }
 }
-  }
 </style>
 

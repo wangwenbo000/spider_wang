@@ -1,0 +1,113 @@
+.articlelist{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: rgba(28, 31, 36, 0.72);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  .list-title{
+    width: 920px;
+    margin: 180px auto 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    color:#fff;
+  }
+  .list-title-left{
+    width: 920px;
+    display: flex;
+    align-items: center;
+    color:#fff;
+      img{
+        display: block;
+        width: 120px;
+        margin-right: 20px;
+        border-radius: 6px;
+        border: 1px solid rgb(38, 30, 83);
+      }
+  }
+  .close{
+    font-size: 32px;
+    cursor: pointer;
+  }
+  .list{
+    width: 888px;
+    background: #F3F3F3;
+    margin: 0 auto;
+    padding: 16px;
+    margin-top: 16px;
+    border-radius: 4px;
+    .listBar{
+      display: flex;
+      font-size: 14px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #D6D6D6;
+      padding-bottom: 10px;
+      justify-content: center;
+      .active{
+        color: #fff;
+        border: 1px solid #272a33;
+        background: linear-gradient(#313950 30%, #272a33 90%);
+      }
+      li{
+        margin-right: 4px;
+        margin-top: 4px;
+        border: 1px solid #D6D6D6;
+        background: linear-gradient(#e5e5e5 30%, #D6D6D6 90%);
+        color: rgb(71, 71, 71);
+        border-radius: 4px;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.listItem{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  li{
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    width: 49.4%;
+    overflow: hidden;
+    height: 120px;
+    background: #fff;
+    display: flex;
+    margin-top: 10px;
+    position: relative;
+    .content{
+      padding: 10px 10px 10px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      a{
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
+        color:#666;
+        cursor: pointer;
+      }
+    }
+    img{
+      width: 200px;
+      height: 100%;
+      display: block;
+    }
+    span{
+      font-size: 12px;
+      color: #d6d6d6;
+      display: block;
+    }
+    time{
+      color: #9ea6b7;
+      font-size: 12px;
+    }
+  }
+}

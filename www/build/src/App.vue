@@ -1,17 +1,25 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
-    <video src="./assets/mov.mp4" class="bgmov" autoplay muted playsinline loop>
+    <video autoplay muted loop playsinline src="./assets/mov.mp4" class="bgmov">
       您的浏览器不支持 video 标签。
     </video>
     <div class="bgCover"></div>
-    <transition name="fadeIn">
+    <transition name="fadeIn" mode="out-in">
       <router-view></router-view>
     </transition>
     <transition name="fade">
     <Spinner v-show="loading"></Spinner>
     </transition>
-    <div class="footer" v-if="$route.name!=='Video'">Copyright © 2014-2017 {{$conf.icp}} Power by Superset.Studio</div>
+    <div class="footer" v-if="$route.name!=='Video'">
+      <div>
+        Copyright © 2014-2017 {{$conf.icp}}
+        <br>
+        Power by <span>Superset</span>.Studio
+      </div>
+      <img src="./assets/footerLogo.png" alt="">
+      <img :src="$conf.qnUrl+'qrcodeTop.png'" class="qrcode">
+    </div>
   </div>
 </template>
 
@@ -21,18 +29,18 @@ import Spinner from '@/components/Spinner'
 require('iphone-inline-video')
 export default {
   name: 'app',
-  watch: {
-    '$route.name': function (o) {
-      const mov = document.querySelector('.bgmov')
-      if (o === 'Video') {
-        mov.volume = 0
-        mov.style.display = 'none'
-      } else {
-        mov.volume = 0.6
-        mov.style.display = 'block'
-      }
-    }
-  },
+  // watch: {
+  //   '$route.name': function (o) {
+  //     const mov = document.querySelector('.bgmov')
+  //     if (o === 'Video') {
+  //       mov.volume = 0
+  //       mov.style.display = 'none'
+  //     } else {
+  //       mov.volume = 0.6
+  //       mov.style.display = 'block'
+  //     }
+  //   }
+  // },
   computed: {
     loading () {
       return this.$store.state.isLoading
@@ -46,6 +54,17 @@ export default {
 </script>
 
 <style lang='scss'>
+.empty{
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 4px;
+    color:#fff;
+    background: #c5b880;
+    border: 1px solid #b5aa7a;
+  }
 img[lazy=loading] {
     /*your style here*/
 }
@@ -122,11 +141,11 @@ to {
 }
 @font-face {
   font-family: 'iconfont';  /* project id 387362 */
-  src: url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.eot');
-  src: url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_387362_2g12at6na5rk9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_387362_g24r2bmpy20jatt9.eot');
+  src: url('//at.alicdn.com/t/font_387362_g24r2bmpy20jatt9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_387362_g24r2bmpy20jatt9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_387362_g24r2bmpy20jatt9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_387362_g24r2bmpy20jatt9.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont" !important;
@@ -170,6 +189,7 @@ a{
   position: fixed;
   // min-width: 100vw;
   // min-height: 100vh;
+  top: 0;
   width: 100%;
   height: 100vh;
   z-index: -100;
@@ -187,23 +207,44 @@ a{
   z-index: -99;
 }
 .footer{
-  position: fixed;
-  z-index: -1;
+  // position: fixed;
+  // z-index: -1;
+  width: 920px;
+  margin: 20px auto;
   bottom: 12px;
-  color: #767676;
-  font-size: 10px;
-  text-align: center;
-  width: 100%;
-  transform: scale(.9);
-  &:before{
-    content:' ';
-    display: block;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    background: url('./assets/footerLogo.png') no-repeat center;
-    background-size: 100%;
+  color: #666;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: right;
+  line-height: 20px;
+  border-top: 1px dotted #323950;
+  padding-top: 20px;
+  // font-weight: bold;
+  span{
+    color: #ff0000;
   }
+  img{
+    // display: block;
+    width: 54px;
+    margin-left: 20px;
+  }
+  .qrcode{
+    background: #735dee;
+  }
+  // text-align: center;
+  // width: 100%;
+  // transform: scale(.9);
+  // &:before{
+  //   content:' ';
+  //   display: block;
+  //   width: 100px;
+  //   height: 100px;
+  //   margin: 0 auto;
+  //   background: url('./assets/footerLogo.png') no-repeat center;
+  //   background-size: 100%;
+  // }
 }
 // 翻页
 .zpagenav{
@@ -260,8 +301,8 @@ a{
   z-index: 2;
   color: #fff;
   cursor: default;
-  background-color: #735DEE;
-  border-color: #735DEE;
+  background: linear-gradient(#313950 30%, #272a33 90%);
+    border: 1px solid #131a2e;
 }
 
 .page-item.disabled .page-link, .page-item.disabled .page-link:focus, .page-item.disabled .page-link:hover {
@@ -275,12 +316,14 @@ a{
   position: relative;
   float: left;
   padding: .5rem .75rem;
-  margin-left: -1px;
+  margin-left: 2px;
   line-height: 1.5;
-  color: #735DEE;
+  color: #666;
   text-decoration: none;
   background-color: #fff;
-  // border: 1px solid #ddd;
+  border-radius: 4px;
+  border: 1px solid #d6d6d6;
+  background: linear-gradient(#e5e5e5 30%, #D6D6D6 90%);
 }
 
 .page-link:focus, .page-link:hover {

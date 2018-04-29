@@ -21,7 +21,19 @@ export default new Router({
     {
       path: '/searchRes/:key/:type/:page',
       name: 'searchRes',
-      component: SearchRes
+      component: SearchRes,
+      children: [
+        {
+          path: 'detial/:id',
+          name: 'searchZzDetial',
+          component: Detial
+        },
+        {
+          path: 'detial/:id',
+          name: 'searchArticlecontent',
+          component: Articlecontent
+        }
+      ]
     },
     {
       path: '/about',

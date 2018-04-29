@@ -1,11 +1,14 @@
 <template>
   <div>
-    <ul class="cateList">
+    <ul class="panel-items">
       <li v-for="list in filterList.data"
           :key="list.id">
         <router-link tag="a"
-                     :to="{name:'Detial',params:{id:list.id}}">
-          <img v-lazy="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"></img>
+                     :to="{name:'Detial',params:{id:list.uuid}}">
+          <img v-lazy="$conf.qnUrl+list.cover+'?imageView2/5/w/204/h/170'"/>
+          <span class="isTao" v-if="list.scalePlatform===0">
+            <i class="iconfont">&#xe709;</i>
+          </span>
           <a href="#" class="titleLink">{{$i18n.locale === 'cn'?list.cnName:list.enName}}</a>
         </router-link>
         <span>{{$i18n.locale === 'cn'?list.enName:list.cnName}}</span>
@@ -21,7 +24,7 @@
       :create-url="createUrl"
       :page-handler="pageHandler">
       </zpagenav>
-    <transition name="fadeIn">
+    <transition name="fadeIn" mode="out-in">
       <router-view></router-view>
     </transition>
   </div>
@@ -77,52 +80,5 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-  .empty{
-    width: 100%;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    font-size: 22px;
-    color:#735DEE;
-  }
-  .cateList {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-
-    li {
-      width: 204px;
-      height: 240px;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      margin-right: 7px;
-      margin-top: 7px;
-      &:nth-child(5n+0) {
-        margin-right: 0;
-      }
-      a{
-        display: block;
-        img {
-          display: block;
-          width: 100%;
-          height: 170px;
-        }
-        .titleLink{
-          font-size: 16px;
-          margin: 10px;
-          overflow: hidden;
-          text-overflow:ellipsis;
-          white-space: nowrap;
-          color: #735DEE;
-        }
-      }
-      span {
-        font-size: 12px;
-        color: #9ea6b7;
-        display: block;
-        margin: 0 10px;
-      }
-    }
-  }
+@import './style/panel';
 </style>

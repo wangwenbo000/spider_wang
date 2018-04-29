@@ -1,0 +1,232 @@
+::-webkit-slider-runnable-track {
+  border: 1px solid #a0b3d6;
+  background: #f0f3f9;
+}
+::-webkit-slider-thumb {
+  outline: 1px dotted #a0b3d6;
+  background-color: #34538b;
+}
+::-webkit-slider-runnable-track:hover {
+  background-color: #cad5eb;
+}
+
+
+::-moz-range-track {
+  border: 1px solid #a0b3d6;
+  height: 20px;
+  background: #f0f3f9;
+}
+::-moz-range-thumb {
+  background: #34538b;
+  height: 30px;
+}
+
+::-ms-fill-lower { background: orange; }
+::-ms-fill-upper { background: green; }
+::-ms-thumb { background: red; }
+::-ms-ticks-before { display: block; color: black; }
+::-ms-ticks-after { display: block; color: blue; }
+::-ms-track { padding: 5px; }
+::-ms-tooltip { display: none; /* 数值提示 只能是display或visibility */ }
+// 编辑页面底部动作条
+.actionBar{
+  height: 50px;
+  background: #e1f2ff;
+  position: fixed;
+  bottom:0;
+  right: 0;
+  left: 102px;
+  z-index: 100000;
+  border-top: 1px solid #9bd6ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+// 全局按钮样式
+.global-btn{
+  margin: 0 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+}
+.gb-red{
+  background: linear-gradient(#ffdddd 30%, #ebbed6 90%);
+  border: 1px solid #ebbed6;
+  &:hover{
+    background: linear-gradient(#ebbed6 30%, #ffdddd 90%);
+    border: 1px solid #ffdddd;
+  }
+}
+.gb-yellow{
+  background: linear-gradient(#fffbdd 30%, #ebd8be 90%);
+  border: 1px solid #ebd8be;
+  &:hover{
+    background: linear-gradient(#ebd8be 30%, #fffbdd 90%);
+    border: 1px solid #fffbdd;
+  }
+}
+.gb-green{
+  background: linear-gradient(#ddffde 30%, #beebc2 90%);
+  border: 1px solid #beebc2;
+  &:hover{
+    background: linear-gradient(#beebc2 30%, #ddffde 90%);
+    border: 1px solid #ddffde;
+  }
+}
+
+// 嵌入框架页面
+.pageForm{
+  padding: 10px;
+  flex-grow: 1;
+  overflow-y: scroll;
+  clear: both;
+  background: #2b374a;
+
+  h1{
+    margin: 0 0 10px 0;
+    color: rgb(106, 130, 153);
+    display: inline-flex;
+    align-items: center;
+    span{
+      font-size: 12px;
+      background: #fffdee;
+      border:1px solid #ebbed6;
+      padding: 2px 4px;
+      margin-left: 10px;
+      border-radius: 4px;
+    }
+  }
+
+  table{
+    margin-bottom: 60px;
+    border-radius: 6px;
+    // overflow: hidden;
+    tr{
+      td{
+        &:nth-child(2n-1){
+          font-weight: bold;
+          background: #f1f1f1;
+        }
+      }
+    }
+    textarea,
+    input[type=text]{
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input[type=range]{
+      width: 110px;
+    }
+    .category-choose{
+      height: 500px;
+      background: #fffdee;
+      position: absolute;
+      z-index: 100000;
+      border:1px solid #000;
+      .close{
+        cursor: pointer;
+        position: absolute;
+        z-index: 100001;
+        right: 36px;
+        top: 5px;
+      }
+    }
+  }
+}
+.tabBar{
+  display: flex;
+  margin: 0;
+  padding: 0;
+  li{
+    padding: 6px 10px;
+    background: #fff;
+    cursor: pointer;
+  }
+  li[class=tab-active]{
+    background: #e1f2ff;
+  }
+}
+// 范围数据样式
+.rangeNum,
+.rangePreview{
+  display: inline-block;
+  padding: 0 6px;
+  font-weight: bold;
+  border: 1px solid #9bd6ff;
+  background: #e1f2ff;
+}
+.rangePreview{
+  background: #fffdee;
+  border: 1px solid #d7c985;
+  // margin-left: 10px;
+}
+
+// 列表页公用样式
+.listIndex{
+  display: flex;
+  flex-grow:1;
+  position: fixed;
+  bottom: 0;
+  top: 50px;
+  right: 0;
+  left: 101px;
+
+  .list{
+    flex-grow:1;
+    padding: 10px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      background-color: #e1f2ff;
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb{
+      background-color: #3b3b8f;
+    }
+    .list-title-link{
+      color: #3b3b8f;
+      font-size: 14px;
+    }
+    .list-titleBar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h2{
+        font-size: 22px;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        span{
+          font-size: 12px;
+          background: #ffd9a0;
+          padding: 0 4px;
+          margin-left: 10px;
+          border-radius: 4px;
+        }
+      }
+    }
+    table{
+      tr{
+        &:hover{
+          background: linear-gradient(#fffbdd 30%, #ebd8be 90%);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.empty, .success{
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background: #fffdee;
+  border: 1px solid #d7c985;
+}
+.success{
+  background: #ebffeb;
+  border: 1px solid #78de9b;
+  margin-bottom: 10px;
+}
+

@@ -1,8 +1,17 @@
 <template>
-<div class="spiderList">
-  <div class="spiderList-titleBar">
+<div class="listIndex">
+<Category name="article"
+          postUrl="apix/article/getCateList"
+          :addNewId.sync="newId"
+          @nodeClick="nodeClick"
+          @onAdd="onAdd"
+          @onAddP="onAddP"
+          @onRename="onRename"
+          @onRemove="onRemove"></Category>
+<div class="list">
+  <div class="list-titleBar">
     <h2>{{$route.params.name}} Data List <span>🗂 为草稿箱文件，前台页面不显示</span></h2>
-    <router-link tag="button" :to="{name:'AForm',query:{action:'add',cate:$route.params.id,name:$route.params.name,redirect:$route.path}}">＋ 增加新数据</router-link>
+    <router-link tag="button" class="global-btn gb-green" :to="{name:'AForm',query:{action:'add',cate:$route.params.id,name:$route.params.name,redirect:$route.path}}">＋ 增加新数据</router-link>
   </div>
 <div class="success" v-show="showSuccess">
   ✅ 删除成功~
@@ -16,17 +25,32 @@
     <th>操作</th>
   </tr>
   <tr v-for="list in dataList.data" :key="list.id" :style="{background:list.status?'':'#ffd9a0'}">
-    <td align="center">{{list.status===0?'🗂':list.id}}</td>
-    <td width="40">
-      <img :src="$conf.qnUrl+list.cover+'?imageView2/5/w/50/h/50'"width="40" style="display:block;">
+    <td align="center">
+      {{list.status===0?'🗂':list.id}}
+    </td>
+    <td width="40" style="padding:0;">
+      <img v-lazy="$conf.qnUrl+list.cover+'?imageView2/5/w/50/h/50'" width="50" style="display:block;">
     </td>
     <td>
-      {{list.titleCn}}{{list.status===0?' (草稿)':''}}</br>
-      {{list.titleEn}}
+      <router-link tag="a"
+                   :to="{
+                     name:'AForm',
+                     query:{
+                       action:'edit',
+                       cate:$route.params.id,
+                       id:list.id,
+                       name:$route.params.name,
+                       redirect:$route.path
+                       }}" class="list-title-link">
+                       <strong>{{list.titleCn}}{{list.status===0?' (草稿)':''}}</strong>
+                       </router-link>
+      <br>
+      <span style="color:#999;">{{list.titleEn}}</span>
     </td>
     <td>{{list.date}}</td>
     <td align="center">
       <router-link tag="a"
+                  class="global-btn gb-yellow"
                    :to="{
                      name:'AForm',
                      query:{
@@ -37,8 +61,8 @@
                        redirect:$route.path
                        }}">
                        ✏️ Edit
-                       </router-link> |
-      <a href="javascript:;" @click.stop="deleteItem(list.id)" class="del">🗑 Delete</a>
+                       </router-link>
+      <a class="global-btn gb-red" href="javascript:;" @click.stop="deleteItem(list.id)">🗑 Delete</a>
     </td>
   </tr>
 </table>
@@ -50,17 +74,24 @@
           :total="dataList.count"
           :max-link="5"
           :page-handler="pageHandler"
-          :create-url="createUrl"></zpagenav>
+          :create-url="createUrl"
+          v-show="dataList.count > 0"></zpagenav>
+</div>
 </div>
 </template>
 <script>
+import Category from '@/components/Category'
 import { mapActions } from 'vuex'
 export default {
   name: 'SpiderList',
   data () {
     return {
-      showSuccess: false
+      showSuccess: false,
+      newId: 0
     }
+  },
+  components: {
+    Category
   },
   async created () {
     await this.getArticleChildList()
@@ -100,50 +131,49 @@ export default {
           this.showSuccess = false
         }, 1000)
       }
-    }
+    },
+    nodeClick (treeNode) {
+      this.$router.push({
+        name: 'AList',
+        params: {
+          name: treeNode.name,
+          id: treeNode.id,
+          page: 1
+        }
+      })
+    },
+    async onAddP (n) {
+      const add = await this.addCate({
+        name: n.name,
+        pid: n.pid
+      })
+      console.log(add)
+    },
+    async onAdd (n) {
+      const add = await this.addCate({
+        name: '新增节点',
+        pid: n.id
+      })
+      this.newId = add.data.data
+    },
+    async onRename (n) {
+      await this.updateCate({
+        name: n.treeNode.name,
+        id: n.treeNode.id
+      })
+    },
+    async onRemove (n) {
+      await this.deleteCate(n.treeNode.id)
+    },
+    ...mapActions([
+      'addCate',
+      'updateCate',
+      'deleteCate'
+    ])
   }
 }
 </script>
 <style lang="scss" scoped>
-.spiderList{
-  flex-grow:1;
-  padding: 10px;
-  overflow-y: scroll;
-    &::-webkit-scrollbar {
-      background-color: #fffdee;
-      width: 10px;
-    }
-    &::-webkit-scrollbar-thumb{
-      background-color: #e1f2ff;
-    }
-  .spiderList-titleBar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h2{
-      span{
-        font-size: 12px;
-        background: #ffd9a0;
-        padding: 0 4px;
-      }
-    }
-    button{
-      background: #00ff00;
-    }
-  }
-
-  .empty, .success{
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    background: #fffdee;
-    border: 1px solid #d7c985;
-  }
-  .success{
-    background: #ebffeb;
-    border: 1px solid #78de9b;
-    margin-bottom: 10px;
-  }
-}
+@import '../style/common';
 </style>
 

@@ -38,13 +38,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .share{
-  width: 36px;
+  width: 46px;
   display: flex;
   flex-direction: column;
   position: fixed;
   left:50%;
-  margin-left: 420px;
-  bottom: 20px;
+  margin-left: 410px;
+  border-radius: 4px;
+  bottom: 80px;
+  background: #735DEE;
   a{
     height: 36px;
     display: inline-flex;
@@ -52,20 +54,25 @@ export default {
     align-items: center;
     color: #fff;
     font-size: 20px;
+    padding: 4px 10px;
     cursor: pointer;
+    border-bottom: 1px solid #5141ad;
+    &:last-child{
+      border: none;
+    }
   }
-  .qq{
-    background: #ffce00;
-  }
-  .weibo{
-    background: #e6162d;
-    font-size: 26px;
-  }
-  .facebook{
-    background: #4867aa;
-  }
-  .twitter{
-    background: #1ab2e8;
-  }
+  // .qq{
+  //   background: #ffce00;
+  // }
+  // .weibo{
+  //   background: #e6162d;
+  //   font-size: 26px;
+  // }
+  // .facebook{
+  //   background: #4867aa;
+  // }
+  // .twitter{
+  //   background: #1ab2e8;
+  // }
 }
 </style>

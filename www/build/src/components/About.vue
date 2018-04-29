@@ -31,10 +31,11 @@ export default {
 .avatar{
   position: absolute;
   display: block;
-  border: 2px solid #FFFFFF;
+  border: 4px solid #FFFFFF;
   width: 128px;
   height: 128px;
-  top: -34px;
+  border-radius: 4px;
+  top: -14px;
   background: #7e7e7e;
 }
 h2{

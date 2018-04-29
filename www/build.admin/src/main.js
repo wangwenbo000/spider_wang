@@ -14,6 +14,15 @@ import VeeValidate from 'vee-validate'
 Vue.use(VeeValidate, {
   locale: 'zhCN'
 })
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: 'http://oux1h5x17.bkt.clouddn.com/error.jpg?imageView2/5/w/50/h/50',
+  loading: 'http://oux1h5x17.bkt.clouddn.com/loading.jpg',
+  attempt: 1,
+  // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
+  listenEvents: ['scroll']
+})
 import { sync } from 'vuex-router-sync'
 sync(store, router)
 Vue.filter('formatSize', function (size) {

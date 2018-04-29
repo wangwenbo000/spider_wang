@@ -27,6 +27,11 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
+h2{
+  margin: 0 0 30px 0;
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 4px;
+}
 .list{
   font-size: 14px;
 }

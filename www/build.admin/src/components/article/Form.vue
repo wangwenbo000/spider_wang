@@ -1,10 +1,10 @@
 <template>
-<div class="articleForm">
+<div class="pageForm">
   <form @submit.prevent="validateBeforeSubmit">
   <div class="actionBar">
-    <button class="cancel" @click.stop="back">取消添加</button>
-    <button class="draft" @click.stop="saveDraft">草稿箱</button>
-    <button class="push" type="submit">发布记录</button>
+    <button class="global-btn gb-red" @click="back">取消添加</button>
+    <button class="global-btn gb-yellow" @click="saveDraft">草稿箱</button>
+    <button class="global-btn gb-green" type="submit">发布记录</button>
   </div>
   <h1>{{$route.query.action === 'edit'?'编辑':'增加'}}记录
     <span v-show="info.status===0">🗂 已存草稿箱</span>
@@ -12,34 +12,50 @@
     <span v-show="info.status===2">❓未发布或存草稿箱新增状态</span>
   </h1>
   <table>
-    <tr>
-      <td>文章标题:</td>
+    <tr height="20">
+      <td width="60">文章标题:</td>
       <td><input autofocus type="text" name="titleCn" v-model="info.titleCn" v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('titleCn') }">
       <span v-show="errors.has('titleCn')" class="help is-danger">⚠️ {{ errors.first('titleCn') }}</span>
       </td>
+      <td colspan="2" rowspan="8" style="vertical-align:top;padding:0;">
+        <!-- <div class="editorTitle">中文详情描述: <span v-show="editWaitSign"><strong>🕕 文章加载中,请勿刷新页面... 两秒没反应请刷新</strong></span></div>
+        <script id="contentCn" style="color:#2b2b2b;" name="content" type="text/plain"></script> -->
+        <ul class="tabBar">
+          <li @click="showEditor=0" :class="showEditor===0&&'tab-active'">中文内容撰写</li>
+          <li @click="showEditor=1" :class="showEditor===1&&'tab-active'">英文内容撰写</li>
+        </ul>
+        <Editor :context="info.contentCn" editor-name="spider-cn-html" ref="Editor" v-show="showEditor===0"></Editor>
+        <Editor :context="info.contentEn" editor-name="spider-en-html" ref="Editore" v-show="showEditor===1"></Editor>
+      </td>
+    </tr>
+    <tr height="20">
       <td>英文标题:</td>
       <td><input type="text" name="titleEn" v-model="info.titleEn" v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('titleEn') }">
       <span v-show="errors.has('titleEn')" class="help is-danger">⚠️ {{ errors.first('titleEn') }}</span></td>
     </tr>
-    <tr>
-      <td colspan="4">
-        <textarea rows="3" name="describeCn" placeholder="中文描述" v-model="info.describeCn"  v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('describeCn') }">
+    <tr height="60">
+      <td>中文描述</td>
+      <td>
+        <textarea rows="6" name="describeCn" placeholder="中文描述" v-model="info.describeCn"  v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('describeCn') }">
         </textarea>
         <span v-show="errors.has('describeCn')" class="help is-danger">⚠️ {{ errors.first('describeCn') }}</span>
       </td>
     </tr>
-    <tr>
-      <td colspan="4">
-        <textarea rows="3" name="describeEn" placeholder="中文描述" v-model="info.describeEn"  v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('describeEn') }">
+
+    <tr height="60">
+      <td>英文描述</td>
+      <td >
+        <textarea rows="6" name="describeEn" placeholder="中文描述" v-model="info.describeEn"  v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('describeEn') }">
         </textarea>
         <span v-show="errors.has('describeEn')" class="help is-danger">⚠️ {{ errors.first('describeEn') }}</span>
       </td>
     </tr>
-    <tr>
-      <td colspan="2" align="right">
+
+    <tr height="20">
+      <td align="right">
         文章分类:
       </td>
-      <td colspan="4" style="position:relative;" >
+      <td style="position:relative;" >
         <input type="text" @focus="categoryChoose=true" :value="categoryName" style="background:#fffdee;border: 1px solid #d7c985;">
         <div class="category-choose" v-show="categoryChoose">
           <div class="close" @click="categoryChoose=false">❌</div>
@@ -47,7 +63,7 @@
         </div>
       </td>
     </tr>
-    <tr>
+    <tr height="20">
       <td colspan="2" style="padding:0 10px;">
         <div class="articleCover" v-for="(file, index) in imageList" :key="file.id">
           <img :src="$conf.qnUrl+file.key+'?imageView2/5/w/180/h/120'" width="180" height="120"/>
@@ -66,6 +82,8 @@
           </div>
         </div>
       </td>
+    </tr>
+    <tr height="20">
       <td colspan="2" style="padding:0;position:relative;">
         <div class="stopUpload" v-if="imageList.length===1">
           只允许上传一张封面，上传新封面请删除当前封面后操作
@@ -90,17 +108,18 @@
                     </FileUpload>
       </td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td colspan="4" style="background:#efefef;padding:0;">
         <div class="editorTitle">中文详情描述: <span v-show="editWaitSign" style="color:#ff0000;background:yellow;"><strong>🕕 文章加载中,请勿刷新页面... 两秒没反应请刷新</strong></span></div>
         <script id="contentCn" style="color:#2b2b2b;" name="content" type="text/plain"></script>
       </td>
-    </tr>
+    </tr> -->
     <tr>
-      <td colspan="4" style="background:#fff;padding:0;">
+      <!-- <td colspan="4" style="background:#fff;padding:0;">
         <div class="editorTitle">英文详情描述:</div>
         <div id="contentEn" style="color:#2b2b2b;"></div>
-      </td>
+      </td> -->
+      <td colspan="2"></td>
     </tr>
   </table>
   </form>
@@ -109,10 +128,12 @@
 <script>
 import FileUpload from 'vue-upload-component'
 import Category from '@/components/Category'
+import Editor from '@/components/plugin/Editor'
 import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      showEditor: 0,
       categoryChoose: false,
       categoryName: '',
       editFiles: [],
@@ -147,7 +168,8 @@ export default {
   },
   components: {
     FileUpload,
-    Category
+    Category,
+    Editor
   },
   async created () {
     if (this.$route.query.action === 'edit') {
@@ -178,23 +200,23 @@ export default {
     // }
     // this.editorCn.create()
     // this.editorEn.create()
-    this.editor = UE.getEditor('contentCn', {
-      // autoHeightEnabled: true,
-      // autoFloatEnabled: true,
-      initialFrameWidth: 776,
-      topOffset: 51
-      // initialFrameHeight: 500
-    })
-    this.editor.addListener('ready', () => {
-      this.editor.setContent(this.info.contentCn)
-      if (this.info.contentCn === '') {
-        this.editWaitSign = true
-        setTimeout(() => {
-          this.editor.setContent(this.info.contentCn)
-          this.editWaitSign = false
-        }, 2000)
-      }
-    })
+    // this.editor = UE.getEditor('contentCn', {
+    //   // autoHeightEnabled: true,
+    //   // autoFloatEnabled: true,
+    //   initialFrameWidth: 776,
+    //   topOffset: 51,
+    //   initialFrameHeight: 900
+    // })
+    // this.editor.addListener('ready', () => {
+    //   this.editor.setContent(this.info.contentCn)
+    //   if (this.info.contentCn === '') {
+    //     this.editWaitSign = true
+    //     setTimeout(() => {
+    //       this.editor.setContent(this.info.contentCn)
+    //       this.editWaitSign = false
+    //     }, 2000)
+    //   }
+    // })
     this.info.category = parseInt(this.$route.query.cate)
     this.categoryName = this.$route.query.name
   },
@@ -240,8 +262,10 @@ export default {
       const result = await this.$validator.validateAll()
       const action = this.$route.query.action
       if (result) {
-        this.setEditorContent()
+        // this.setEditorContent()
         this.info.status = 1
+        this.info.contentCn = this.$refs.Editor.setEditorContent()
+        this.info.contentEn = this.$refs.Editore.setEditorContent()
         const add = await this.addArticle({
           data: this.info,
           action: action
@@ -309,35 +333,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.articleForm{
-  padding: 10px;
-  flex-grow: 1;
-  overflow-y: scroll;
-  clear: both;
-  h1{
-    margin: 0 0 10px 0;
-    span{
-      font-size: 12px;
-      background: #fffdee;
-      border:1px solid #000;
-      padding: 2px 4px;
-    }
-  }
-  textarea,
-  input[type=text]{
-    width: 100%;
-    box-sizing: border-box;
-  }
-  table{
-    margin-bottom: 50px;
-    tr{
-      td{
-        &:nth-child(2n-1){
-          width: 80px;
-          color: blue;
-        }
-      }
-    }
+@import '../style/common';
     .stopUpload{
       width: 100%;
       height: 140px;
@@ -346,30 +342,6 @@ export default {
       align-items: center;
       color: #ff0000;
       font-weight: bold;
-    }
-    .category-choose{
-      height: 500px;
-      background: #fffdee;
-      position: absolute;
-      z-index: 100000;
-      border:1px solid #000;
-      .close{
-        position: absolute;
-        z-index: 100001;
-        background:#ffb8b8;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        right: 30px;
-      }
-    }
-    .editorTitle{
-      height: 30px;
-      background: #e7e7e7;
-      line-height: 30px;
-      text-indent: 10px;
     }
     .articleCover{
       width: 180px;
@@ -394,32 +366,4 @@ export default {
         }
       }
     }
-
-  }
-}
-.actionBar{
-  height: 50px;
-  background: #e1f2ff;
-  position: fixed;
-  bottom:0;
-  right: 0;
-  left: 302px;
-  z-index: 100000;
-  border-top: 1px solid #9bd6ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  button{
-    margin: 0 10px;
-  }
-  .cancel{
-    background: #ffdddd;
-  }
-  .draft{
-    background: yellow;
-  }
-  .push{
-    background: #00ff00;
-  }
-}
 </style>

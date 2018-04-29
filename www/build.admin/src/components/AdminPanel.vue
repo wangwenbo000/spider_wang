@@ -22,7 +22,7 @@
   </div>
   <div class="top">
     <div class="top-left">
-      <h1>🕷 TARANTULRS SOUL · 爬魂 / ADMIN PANEL</h1>
+      <router-link tag="h1" :to="{name:'Admin'}">TARANTULRS SOUL · 爬魂 / ADMIN PANEL</router-link>
     </div>
     <ul class="top-right">
       <li>{{userInfo.username}}</li>
@@ -130,38 +130,44 @@ export default {
 </script>
 <style lang="scss" scoped>
 $border-blue:1px solid #9bd6ff;
-$border-yellow:1px solid #d7c985;
+$border-yellow:1px solid #223047;
 
 .active{
-  background: #3b3b8f;
-  color:#fff;
+  background: #fff;
 }
 .top{
   height: 50px;
   width: 100%;
-  border-bottom: $border-blue;
-  background: #e1f2ff;
+  // border-bottom: $border-blue;
+  color: #fff;
+  background: linear-gradient(#313950 30%, #272a33 90%);
   display: flex;
   justify-content: space-between;
   position: fixed;
-
+  top: 0;
+  z-index: 1000001;
   .top-left{
     display: flex;
     align-items: center;
     h1{
       margin: 0;
-      font-size: 17px;
+      font-size: 20px;
+      font-weight: bolder;
       padding-left: 20px;
-      color:#0000ff;
+      color: #5adb2d;
     }
   }
   .top-right{
     display: flex;
+    margin: 0;
+    a{
+      color: #fff;
+    }
     li{
       display: inline-flex;
       align-items: center;
       padding: 0 10px;
-      border-left: $border-blue;
+      border-left: 1px solid #353e57;
       position: relative;
       .changePassword{
         position: absolute;
@@ -216,10 +222,10 @@ $border-yellow:1px solid #d7c985;
 }
 .left{
   width: 100px;
-  position: absolute;
-  top: 51px;
+  position: fixed;
+  top: 50px;
   bottom: 0;
-  background: #fffdee;
+  background: #0c1829;
   border-right: $border-yellow;
   flex-shrink: 0;
   ul{
@@ -228,26 +234,25 @@ $border-yellow:1px solid #d7c985;
     padding: 0;
     li{
       border-bottom: $border-yellow;
-      margin: 0;
+      margin-right: 0;
       padding: 10px 0;
       text-align: center;
       font-size: 14px;
       font-weight: bold;
+      color:rgb(150, 161, 177);
       cursor: pointer;
       &:hover{
-        background: #4d3590;
-        color:#fff;
+        background: #fff;
+        // color:#fff;
       }
     }
   }
 }
 .right{
   position: absolute;
+  margin: 50px auto auto 101px;
   display: flex;
-  top: 51px;
   right: 0;
-  left: 101px;
-  bottom: 0;
-  overflow: scroll;
+  left: 0;
 }
 </style>

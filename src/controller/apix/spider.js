@@ -1,17 +1,17 @@
-const adminBase = require('../adminBase.js');
 import qiniu from 'node-qiniu';
+const adminBase = require('../adminBase.js');
+const qc = think.config('qiniu');
 qiniu.config({
-  access_key: 'gjOuGOi_3b3HkMoXZozSf6ZaIqP8ep-4BzZuSCii',
-  secret_key: 'xQS6qsBID8R-BKeyU1uEc5YKukyS21B6Cu-H5Mqa'
+  access_key: qc.access_key,
+  secret_key: qc.secret_key
 });
-var imagesBucket = qiniu.bucket('zz123');
+var imagesBucket = qiniu.bucket(qc.bucket);
 module.exports = class extends adminBase {
   async getCateListAction() {
-    const pid = this.post();
-    console.log(pid);
     const data = await this.model('main_category').getList();
     return this.json(data);
   }
+
   async getChildListAction() {
     const id = this.post('id');
     const page = this.post('page');
@@ -19,10 +19,11 @@ module.exports = class extends adminBase {
       .where({category: id})
       .page(page, 16)
       .order('STATUS ASC, ID DESC')
-      .field('enName,id,cnName,date,isScale,status,cover')
+      .field('enName,id,cnName,date,isScale,status,cover,uuid')
       .countSelect();
     return this.success(list);
   }
+
   async deleteChildListItemAction() {
     const id = this.post('id');
     const del = this.model('spider').where({id: parseInt(id)}).delete();
@@ -33,6 +34,7 @@ module.exports = class extends adminBase {
     await this.model('image').where({sid: id}).delete();
     return this.success(del);
   }
+
   async addDataAction() {
     const data = this.post('data');
     const action = this.post('action');
@@ -45,11 +47,16 @@ module.exports = class extends adminBase {
     data.local = JSON.stringify(data.local);
     data.date = think.datetime();
     data.rarity = parseInt(data.rarity);
-    data.habit = data.habit.join(',');
+    if (data.habit[0] === '') {
+      data.habit = data.habit.join(',');
+      data.habit = data.habit.replace(',', '');
+    } else {
+      data.habit = data.habit.join(',');
+    }
     data.subfamily = data.subfamily;
-    // data.chart = data.chart.join(',');
     switch (action) {
       case 'add':
+        data.uuid = think.uuid('v4');
         const add = await this.model('spider').add(data);
         return this.success(add);
       case 'edit':
@@ -58,6 +65,7 @@ module.exports = class extends adminBase {
         return this.success(update);
     }
   }
+
   async getDetialAction() {
     const id = this.post('id');
     const detial = await this.model('spider').where({id: id}).find();

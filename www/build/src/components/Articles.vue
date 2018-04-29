@@ -44,24 +44,28 @@ export default {
 </script>
 <style lang="scss">
 .article{
-  width: 1080px;
-  margin: 80px auto;
+  width: 920px;
+  margin: 80px auto 40px auto;
   position: relative;
   .title{
     color:#959EA8;
     position: absolute;
     font-size: 24px;
     top: -40px;
+    font-weight: bold;
   }
   .article-cate{
     display: flex;
     justify-content: space-between;
     li{
-      width: 214px;
+      width: 174px;
       height: 78px;
+      border-radius: 4px;
+      overflow: hidden;
       // margin-right: 8px;
       position: relative;
       cursor: pointer;
+      border: 1px solid rgb(38, 30, 83);
       transition: all .3s;
       &:active{
         transform: scale(.96);

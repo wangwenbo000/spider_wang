@@ -209,6 +209,7 @@ export default {
   border-right: 1px solid #ddd;
   position: relative;
   flex-shrink: 0;
+  background: #f0fff8;
   .searchTree{
     height: 22px;
     background: #ccc;
@@ -223,16 +224,16 @@ export default {
     top:52px;
     bottom: 0;
     &::-webkit-scrollbar {
-      background-color: #fffdee;
+      background-color: #e1f2ff;
       width: 10px;
     }
     &::-webkit-scrollbar-thumb{
-      background-color: #e1f2ff;
+      background-color: #3b3b8f;
     }
   }
   .title{
     height: 30px;
-    background: #ddd;
+    background: #e1f2ff;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -251,7 +252,7 @@ export default {
       background: #f0f0f0;
     }
     .zs{
-      background: #ccc;
+      background: #cde3f5;
     }
     .zs,
     .addFolder{

@@ -7,7 +7,6 @@ module.exports = class extends think.Controller {
        (controllerName === 'apix/login' && actionName === 'login')) {
       return;
     }
-
     if (think.isEmpty(login)) {
       this.redirect('/admin');
       this.ctx.throw(401, 'access_denied');

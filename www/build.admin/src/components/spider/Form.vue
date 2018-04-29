@@ -1,10 +1,10 @@
 <template>
-<div class="formPage">
+<div class="pageForm">
   <form @submit.prevent="validateBeforeSubmit">
   <div class="actionBar">
-    <button class="cancel" @click="back">取消添加</button>
-    <button class="draft" @click="saveDraft">草稿箱</button>
-    <button class="push" type="submit">发布记录</button>
+    <button class="global-btn gb-red" @click="back">取消添加</button>
+    <button class="global-btn gb-yellow" @click="saveDraft">草稿箱</button>
+    <button class="global-btn gb-green" type="submit">发布记录</button>
   </div>
   <h1>{{$route.query.action === 'edit'?'编辑':'增加'}}记录
     <span v-show="info.status===0">🗂 已存草稿箱</span>
@@ -13,11 +13,21 @@
   </h1>
   <table>
     <tr>
-      <td>中文名称:</td>
+      <td width="60">中文名称:</td>
       <td>
         <input autofocus type="text" name="cnName" v-model="info.cnName" v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('cnName') }">
         <span v-show="errors.has('cnName')" class="help is-danger">⚠️ {{ errors.first('cnName') }}</span>
       </td>
+      <td rowspan="26" valign="top" style="vertical-align:top;padding:0;" width="520">
+        <ul class="tabBar">
+          <li @click="showEditor=0" :class="showEditor===0&&'tab-active'">中文内容撰写</li>
+          <li @click="showEditor=1" :class="showEditor===1&&'tab-active'">英文内容撰写</li>
+        </ul>
+        <Editor :context="info.contentCn" editor-name="spider-cn-html" ref="Editor" v-show="showEditor===0"></Editor>
+        <Editor :context="info.contentEn" editor-name="spider-en-html" ref="Editore" v-show="showEditor===1"></Editor>
+      </td>
+    </tr>
+    <tr>
       <td>English Name:</td>
       <td>
         <input type="text" name="enName" v-model="info.enName" v-validate="'required|min:2'" :class="{'input': true,'is-danger': errors.has('enName') }">
@@ -26,7 +36,7 @@
     </tr>
     <tr>
       <td>简介描述:</td>
-      <td colspan="3">
+      <td>
         <textarea rows="3"
                   name="describeCn"
                   placeholder="请简单描述一下"
@@ -41,7 +51,7 @@
     </tr>
     <tr>
       <td>英文描述:</td>
-      <td colspan="3">
+      <td>
         <textarea rows="3"
                   name="describeEn"
                   placeholder="请用英文简单描述一下"
@@ -62,6 +72,8 @@
           <Category postUrl="apix/spider/getCateList" :name="'subfamilyChoose'" @nodeClick="pNodeClick" :isFormCom="true" :isAllowPNode="true" :isExpandAllNodes="true"></Category>
         </div>
       </td>
+    </tr>
+    <tr>
       <td>稀有度</td>
       <td>
         <select name="" v-model="info.rarity">
@@ -81,8 +93,10 @@
         <input name="isScale" id="isScale2" type="radio" value="0" v-model="info.isScale"/>
         <label for="isScale2">否</label>
       </td>
-      <td>售卖平台:</td>
-      <td>
+    </tr>
+    <tr v-show="parseInt(info.isScale) === 1">
+      <td style="background:#fff5d4;">售卖平台:</td>
+      <td style="background:#fff5d4">
         <input name="scalePlatform" id="scalePlatform1" type="radio" :value="1" v-model="info.scalePlatform"/>
         <label for="scalePlatform1">微信</label>
         <input name="scalePlatform" id="scalePlatform2" type="radio" :value="0" v-model="info.scalePlatform"/>
@@ -100,10 +114,14 @@
         <input name="Urticating" type="radio" id="Urticating2" :value="0" v-model="info.Urticating"/>
         <label for="Urticating2">否</label>
       </td>
+    </tr>
+    <tr>
       <td>成长速度</td>
       <td>
-        <input name="growth" type="radio" :value="1" v-model="info.growth"/>快
-        <input name="growth" type="radio" :value="0" v-model="info.growth"/>慢
+        <input name="growth" type="radio" :value="0" v-model="info.growth"/>极慢
+        <input name="growth" type="radio" :value="1" v-model="info.growth"/>缓慢
+        <input name="growth" type="radio" :value="2" v-model="info.growth"/>快
+        <input name="growth" type="radio" :value="3" v-model="info.growth"/>飞速
       </td>
     </tr>
     <tr>
@@ -115,13 +133,10 @@
           <Category postUrl="apix/spider/getCateList" :name="'categoryChoose'" @nodeClick="nodeClick" :isFormCom="true"></Category>
         </div>
       </td>
+    </tr>
+    <tr>
       <td>习性:</td>
       <td>
-        <!-- <select name="" v-model="info.habit">
-          <option value="0">穴栖</option>
-          <option value="1">地栖</option>
-          <option value="2">树栖</option>
-        </select> -->
         <input type="checkbox" value="穴栖" id="穴栖" v-model="info.habit">穴栖
         <input type="checkbox" value="地栖" id="地栖" v-model="info.habit">地栖
         <input type="checkbox" value="树栖" id="树栖" v-model="info.habit">树栖
@@ -136,25 +151,29 @@
         <input type="range" name="span-max" min="1" max="40" v-model="info.span.max"/><span class="rangeNum">{{info.span.max}}cm</span>
         <span class="rangePreview">{{CSpan}}</span>
       </td>
+    </tr>
+    <tr>
       <td>体长:</td>
       <td style="display:flex;border:none;align-items:center;">
         <strong>≤</strong>
-        <input type="range" name="body" min="1" max="10" v-model="info.body.min"/><span class="rangeNum">{{info.body.min}}</span>
+        <input type="range" name="body" min="1" max="10" v-model="info.body.min"/><span class="rangeNum">{{info.body.min}}cm</span>
         ---
-        <input type="range" name="body" min="1" max="10" v-model="info.body.max"/><span class="rangeNum">{{info.body.max}}</span>
-        <strong>cm</strong>
+        <input type="range" name="body" min="1" max="10" v-model="info.body.max"/><span class="rangeNum">{{info.body.max}}cm</span>
         <span class="rangePreview">{{CBody}}</span>
       </td>
     </tr>
     <tr>
-      <td>寿命:</td>
-      <td colspan="3">
+      <td rowspan="2">寿命:</td>
+      <td>
         <strong>磁性：</strong>
         <input type="range" name="body" min="0" max="50" v-model="info.females.min"/><span class="rangeNum">{{info.females.min}}岁</span>
         ---
         <input type="range" name="body" min="0" max="50" v-model="info.females.max"/><span class="rangeNum">{{info.females.max}}岁</span>
         <span class="rangePreview">{{CFemales}}</span>
-        |
+      </td>
+    </tr>
+    <tr>
+      <td>
         <strong>雄性：</strong>
         <input type="range" name="body" min="0" max="50" v-model="info.males.min"/><span class="rangeNum">{{info.males.min}}岁</span>
         ---
@@ -165,7 +184,6 @@
     <tr>
       <td>饲养难度:</td>
       <td>
-        <!-- <input type="range" name="Accessibility" min="1" max="10" v-model="info.Accessibility"/><span class="rangeNum">{{info.Accessibility}}</span> -->
         <select name="" v-model="info.Accessibility">
           <option :value="1" selected>入门级</option>
           <option :value="2">玩家级</option>
@@ -173,6 +191,8 @@
           <option :value="4">梦幻级</option>
         </select>
       </td>
+    </tr>
+    <tr>
       <td>
         地域: <br/>
         ( 🌐 需翻墙! )
@@ -188,22 +208,20 @@
         <br>
         经度：<input type="text" placeholder="" style="width:100px;" v-model="info.local.lon">
         纬度：<input type="text" placeholder="" style="width:100px;" v-model="info.local.lat">
-         |
-        <a href="javascript:;" @click="showMapHelp=true">帮助</a>
-        <div>
-          <img src="../../assets/map.jpg" alt="" class="mapHelp" v-show="showMapHelp" @click="showMapHelp=false">
-        </div>
       </td>
     </tr>
     <tr>
-      <td>温度:</td>
-      <td colspan="3">
+      <td rowspan="2">温度:</td>
+      <td>
         <strong>白天：</strong>
         <input type="range" name="body" min="-10" max="60" v-model="info.temperature.day.min"/><span class="rangeNum">{{info.temperature.day.min}}℃</span>
         ---
         <input type="range" name="body" min="-10" max="60" v-model="info.temperature.day.max"/><span class="rangeNum">{{info.temperature.day.max}}℃</span>
         <span class="rangePreview">{{CTemperature.day}}</span>
-        |
+      </td>
+    </tr>
+    <tr>
+      <td>
         <strong>夜间：</strong>
         <input type="range" name="body" min="-10" max="60" v-model="info.temperature.night.min"/><span class="rangeNum">{{info.temperature.night.min}}℃</span>
         ---
@@ -212,58 +230,22 @@
       </td>
     </tr>
     <tr>
-      <td>湿度:</td>
-      <td colspan="3">
+      <td rowspan="2">湿度:</td>
+      <td>
         <strong>白天：</strong>
         <input type="range" name="body" min="0" max="100" v-model="info.humidity.day.min"/><span class="rangeNum">{{info.humidity.day.min}}%RH</span>
         ---
         <input type="range" name="body" min="0" max="100" v-model="info.humidity.day.max"/><span class="rangeNum">{{info.humidity.day.max}}%RH</span>
         <span class="rangePreview">{{CHumidity.day}}</span>
-        |
+      </td>
+    </tr>
+    <tr>
+      <td>
         <strong>夜间：</strong>
         <input type="range" name="body" min="0" max="100" v-model="info.humidity.night.min"/><span class="rangeNum">{{info.humidity.night.min}}%RH</span>
         ---
         <input type="range" name="body" min="0" max="100" v-model="info.humidity.night.max"/><span class="rangeNum">{{info.humidity.night.max}}%RH</span>
         <span class="rangePreview">{{CHumidity.night}}</span>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <div class="charts">
-          <IEcharts :option="bar"></IEcharts>
-        </div>
-      </td>
-      <td colspan="3">
-        <div class="chartBar">
-          <span>足展大小：</span>
-          <input type="range" name="body" min="0" max="100" v-model="info.chart[0]"/>
-          <span class="rangeNum">{{info.chart[0]}}</span>
-        </div>
-        <div class="chartBar">
-          <span>毒性：</span>
-          <input type="range" name="body" min="0" max="100" v-model="info.chart[1]"/>
-          <span class="rangeNum">{{info.chart[1]}}</span>
-        </div>
-        <div class="chartBar">
-          <span>寿命：</span>
-          <input type="range" name="body" min="0" max="100" v-model="info.chart[2]"/>
-          <span class="rangeNum">{{info.chart[2]}}</span>
-        </div>
-        <div class="chartBar">
-          <span>凶猛程度：</span>
-          <input type="range" name="body" min="0" max="100" v-model="info.chart[3]"/>
-          <span class="rangeNum">{{info.chart[3]}}</span>
-        </div>
-        <div class="chartBar">
-          <span>提毛指数：</span>
-          <input type="range" name="body" min="0" max="100" v-model="info.chart[4]"/>
-          <span class="rangeNum">{{info.chart[4]}}</span>
-        </div>
-        <div class="chartBar">
-          <span>敏捷度：</span>
-          <input type="range" name="body" min="0" max="100" v-model="info.chart[5]"/>
-          <span class="rangeNum">{{info.chart[5]}}</span>
-        </div>
       </td>
     </tr>
     <tr>
@@ -273,13 +255,11 @@
             <li v-for="(file, index) in editFiles" :key="file.id">
               <img :src="$conf.qnUrl+file.key+'?imageView2/5/w/120/h/120'" width="50" height="auto"/>
               <div class="chooseCoverForm">
-                <input type="radio" name="chooseCover" :id="'chooseCover'+index" :value="file.key" v-model="coverName" ></input>
+                <input type="radio" name="chooseCover" :id="'chooseCover'+index" :value="file.key" v-model="coverName"/>
                 <label :for="'chooseCover'+index">设为封面</label>
-                <!-- <div>{{file.size | formatSize}}</div>
-                <div>{{file.speed | formatSize}}</div> -->
                 <div>已上传✅</div>
               </div>
-              <a href="javascript:;" class="deleteCover" @click.prevent="removeCoverFromDBandServer(file)">❌ Delete</a>
+              <a href="javascript:;" class="deleteCover" @click.prevent="removeCoverFromDBandServer(file)">❌</a>
             </li>
           </ul>
           <ul class="uploadCover">
@@ -296,6 +276,8 @@
           </ul>
         </div>
       </td>
+    </tr>
+    <tr>
       <td colspan="2" style="background: #fffdee;padding:0;">
         <FileUpload :post-action="upload.postAction"
                     :extensions="upload.extensions"
@@ -320,16 +302,50 @@
       </td>
     </tr>
     <tr>
-      <td colspan="4" style="padding:0;background:#fff;color:#2b2b2b;">
-        <div class="editorTitle">中文详情描述:</div>
-        <div id="editorCn" >
+      <td colspan="2">
+        <div style="display:flex;align-items:center;justify-content: space-around;">
+          <div class="charts">
+            <IEcharts :option="bar"></IEcharts>
+          </div>
+          <div>
+            <div class="chartBar">
+            <span>足展大小：</span>
+            <input type="range" name="body" min="0" max="100" v-model="info.chart[0]"/>
+            <span class="rangeNum">{{info.chart[0]}}</span>
+          </div>
+          <div class="chartBar">
+            <span>毒性：</span>
+            <input type="range" name="body" min="0" max="100" v-model="info.chart[1]"/>
+            <span class="rangeNum">{{info.chart[1]}}</span>
+          </div>
+          <div class="chartBar">
+            <span>寿命：</span>
+            <input type="range" name="body" min="0" max="100" v-model="info.chart[2]"/>
+            <span class="rangeNum">{{info.chart[2]}}</span>
+          </div>
+          <div class="chartBar">
+            <span>凶猛程度：</span>
+            <input type="range" name="body" min="0" max="100" v-model="info.chart[3]"/>
+            <span class="rangeNum">{{info.chart[3]}}</span>
+          </div>
+          <div class="chartBar">
+            <span>提毛指数：</span>
+            <input type="range" name="body" min="0" max="100" v-model="info.chart[4]"/>
+            <span class="rangeNum">{{info.chart[4]}}</span>
+          </div>
+          <div class="chartBar">
+            <span>敏捷度：</span>
+            <input type="range" name="body" min="0" max="100" v-model="info.chart[5]"/>
+            <span class="rangeNum">{{info.chart[5]}}</span>
+          </div>
+          </div>
         </div>
+
       </td>
     </tr>
     <tr>
-      <td colspan="4" style="padding:0;background:#fff;color:#2b2b2b;">
-        <div class="editorTitle">英文详情描述:</div>
-        <div id="editorEn"></div>
+      <td colspan="2">
+
       </td>
     </tr>
   </table>
@@ -342,14 +358,15 @@ import 'echarts/lib/chart/radar'
 import FileUpload from 'vue-upload-component'
 import { mapActions } from 'vuex'
 import Category from '@/components/Category'
+import Editor from '@/components/plugin/Editor'
 export default {
   name: 'SpiderForm',
   data () {
     return {
+      showEditor: 0,
       categoryChoose: false,
       subfamilyChoose: false,
       categoryName: '',
-      showMapHelp: false,
       coverName: '',
       saveId: null,
       editFiles: [],
@@ -515,7 +532,8 @@ export default {
   components: {
     FileUpload,
     Category,
-    IEcharts
+    IEcharts,
+    Editor
   },
   async created () {
     if (this.$route.query.action === 'edit') {
@@ -527,19 +545,6 @@ export default {
     }
   },
   mounted () {
-    var E = window.wangEditor
-    this.editorCn = new E('#editorCn')
-    this.editorEn = new E('#editorEn')
-    this.editorCn.customConfig.onchange = (html) => {
-      this.info.contentCn = html
-    }
-    this.editorEn.customConfig.onchange = (html) => {
-      this.info.contentEn = html
-    }
-
-    this.editorCn.create()
-    this.editorEn.create()
-
     this.info.category = parseInt(this.$route.query.cate)
     this.categoryName = this.$route.query.name
   },
@@ -553,10 +558,6 @@ export default {
       if (o.match('spider/swiper')) {
         this.info.cover = o
       }
-    },
-    'info': function (o) {
-      this.editorCn.txt.html(o.contentCn)
-      this.editorEn.txt.html(o.contentEn)
     },
     'info.chart': function (o) {
       this.bar.series[0].data[0].value = this.info.chart
@@ -612,6 +613,8 @@ export default {
       if (result) {
         this.info.status = 1
         this.info.chart = this.info.chart.join(',')
+        this.info.contentCn = this.$refs.Editor.setEditorContent()
+        this.info.contentEn = this.$refs.Editore.setEditorContent()
         const id = await this.addSpiderData({
           data: this.info,
           action: action
@@ -684,110 +687,27 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../style/common';
+.charts{
+  width: 270px;
+  height: 220px;
+  // margin:0 auto;
+}
+.chartBar{
+  display: flex;
+  align-items: center;
+  span:first-child{
+    background: #d1cbee;
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin: 6px 0;
+  }
+}
 
-.formPage{
-  flex-grow: 1;
-  padding: 10px;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    background-color: #fffdee;
-    width: 10px;
-  }
-  &::-webkit-scrollbar-thumb{
-    background-color: #e1f2ff;
-  }
-  h1{
-    margin: 0 0 10px 0;
-    span{
-      font-size: 12px;
-      background: #fffdee;
-      border:1px solid #000;
-      padding: 2px 4px;
-    }
-  }
-  table{
-    margin-bottom: 50px;
-    tr{
-      td{
-        &:nth-child(2n-1){
-          width: 80px;
-          color: blue;
-        }
-      }
-    }
-    textarea,
-    input[type=text]{
-      width: 100%;
-      box-sizing: border-box;
-    }
-    input[type=range]{
-      width: 110px;
-    }
-    .charts{
-      width: 270px;
-      height: 220px;
-      margin:0 auto;
-    }
-    .chartBar{
-      display: flex;
-      align-items: center;
-      span:first-child{
-        background: #d1cbee;
-        display: inline-block;
-        width: 100px;
-        text-align: right;
-        margin: 6px 0;
-      }
-    }
-    .category-choose{
-      height: 500px;
-      background: #fffdee;
-      position: absolute;
-      z-index: 100000;
-      border:1px solid #000;
-      .close{
-        position: absolute;
-        z-index: 100001;
-        background:#ffb8b8;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        right: 30px;
-      }
-    }
-    .mapHelp{
-      display: block;
-      position: absolute;
-      width: 600px;
-      right:0;
-      border:1px solid #000;
-      z-index: 1000;
-    }
-    .editorTitle{
-      height: 30px;
-      background: #e7e7e7;
-      line-height: 30px;
-      text-indent: 10px;
-    }
-
-    .rangeNum,
-    .rangePreview{
-      display: inline-block;
-      padding: 2px 6px;
-      font-weight: bold;
-      border: 1px solid #9bd6ff;
-      background: #e1f2ff;
-    }
-    .rangePreview{
-      background: #fffdee;
-      border: 1px solid #d7c985;
-      margin-left: 10px;
-    }
     .uploadCover{
       display: flex;
-      padding: 0;
+      padding: 6px;
       margin: 0;
       li{
         width: 120px;
@@ -809,7 +729,6 @@ export default {
         }
         img{
           width: 100%;
-          // height: 100%;
           position: absolute;
           display: block;
           z-index: 0;
@@ -823,8 +742,6 @@ export default {
         }
       }
     }
-    }
-
     .uploadArea{
       width: 100%;
       height: 116px;
@@ -835,32 +752,6 @@ export default {
       justify-content: center;
       font-size: 26PX;
     }
-  }
 
-.actionBar{
-  height: 50px;
-  background: #e1f2ff;
-  position: fixed;
-  bottom:0;
-  right: 0;
-  left: 302px;
-  z-index: 100000;
-  border-top: 1px solid #9bd6ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  button{
-    margin: 0 10px;
-  }
-  .cancel{
-    background: #ffdddd;
-  }
-  .draft{
-    background: yellow;
-  }
-  .push{
-    background: #00ff00;
-  }
-}
 </style>
 

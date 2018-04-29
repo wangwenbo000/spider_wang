@@ -93,11 +93,11 @@ export default {
     //     background-size: 80%;
     //   }
     .slogen{
-      font-size: 36px;
-      font-weight: 100;
+      font-size: 38px;
+      font-weight: bold;
       text-align: center;
       color:#735DEE;
-      margin-top: 100px;
+      margin-top: 20px;
     }
     .video{
       font-size: 50px;
@@ -108,21 +108,28 @@ export default {
       }
     }
     .search-bar{
-      width: 1080px;
-      background: #fff;
+      width: 912px;
+      background: #735dee;
       height: 50px;
       display: flex;
       margin-top: 38px;
+      border-radius: 8px;
+      border: 4px solid #725cee;
+      overflow: hidden;
       input,button{
         outline:none;
       }
       input{
         border:none;
-        width: 1020px;
-        height: 50px;
-        padding: 0 20px;
-        font-size: 18px;
+        width: 820px;
+        font-size: 24px;
+        color: #4b2fe9;
+        font-weight: bold;
         text-align: center;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, .4) inset;
+        -webkit-appearance:none;
       }
       button{
         width: 60px;
@@ -137,14 +144,16 @@ export default {
       }
     }
     .searchInfo{
-      width: 1080px;
+      width: 920px;
+      border-radius: 4px;
       height: 50px;
       background: #735DEE;
+      margin-top: 2px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
       color:#fff;
-      font-size: 14px;
+      font-size: 18px;
     }
   }
 </style>

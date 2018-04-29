@@ -94,11 +94,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .video{
-  width:1080px;
+  width:960px;
   position: absolute;
   left:50%;
   top: 120px;
-  margin-left:-540px;
+  margin-left:-480px;
   color:#fff;
   .playVideoWapper{
     width: 1080px;
@@ -114,6 +114,7 @@ export default {
   .videoList{
     width: 100%;
     height: 120px;
+    margin-top: 20px;
     .videoListItem{
       width: 220px;
       height: 120px;

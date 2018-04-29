@@ -1,21 +1,39 @@
 <template>
-<div class="about">
-<div class="success" v-show="showSuccess">
+<div class="pageForm">
+  <h1>关于页面内容编辑</h1>
+  <div class="success" v-show="showSuccess">
   ✅ 更新成功~
 </div>
-<input type="text" v-model="about.name" placeholder="你的名字">
-<span>中文介绍</span>
-<div id="aboutEditorCn" style="width:100%;"></div>
-<span>英文介绍</span>
-<div id="aboutEditorEn" style="width:100%;"></div>
-<button @click="save">保存修改</button>
+  <div class="actionBar">
+    <button class="global-btn gb-green" @click="save">发布记录</button>
+  </div>
+  <table>
+    <tr>
+      <td>
+        <input type="text" v-model="about.name" placeholder="你的名字">
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;padding:0;background:#f1f1f1;">
+        <ul class="tabBar">
+          <li @click="showEditor=0" :class="showEditor===0&&'tab-active'">中文内容撰写</li>
+          <li @click="showEditor=1" :class="showEditor===1&&'tab-active'">英文内容撰写</li>
+        </ul>
+        <Editor :context="about.contentCn" editor-name="spider-cn-html" ref="Editor" v-show="showEditor===0"></Editor>
+        <Editor :context="about.contentEn" editor-name="spider-en-html" ref="Editore" v-show="showEditor===1"></Editor>
+      </td>
+    </tr>
+  </table>
+<!-- <button @click="save">保存修改</button> -->
 </div>
 </template>
 <script>
+import Editor from '@/components/plugin/Editor'
 export default {
   data () {
     return {
       showSuccess: false,
+      showEditor: 0,
       about: {
         name: '',
         contentCn: '',
@@ -23,13 +41,15 @@ export default {
       }
     }
   },
+  components: {
+    Editor
+  },
   async created () {
     const about = await this.$axios({
       url: this.$api.about,
       method: 'post'
     })
     this.about = about.data.data
-    console.log(about)
   },
   watch: {
     'about': function (o) {
@@ -39,12 +59,13 @@ export default {
   },
   methods: {
     async save () {
-      const save = await this.$axios({
+      this.about.contentCn = this.$refs.Editor.setEditorContent()
+      this.about.contentEn = this.$refs.Editore.setEditorContent()
+      await this.$axios({
         url: this.$api.saveAbout,
         method: 'post',
         data: this.about
       })
-      console.log(save)
       this.showSuccessMsg()
     },
     showSuccessMsg () {
@@ -54,53 +75,11 @@ export default {
         this.showSuccess = false
       }, 1000)
     }
-  },
-  mounted () {
-    var E = window.wangEditor
-    this.editorCn = new E('#aboutEditorCn')
-    this.editorEn = new E('#aboutEditorEn')
-    this.editorCn.customConfig.onchange = (html) => {
-      this.about.contentCn = html
-    }
-    this.editorEn.customConfig.onchange = (html) => {
-      this.about.contentEn = html
-    }
-    this.editorCn.create()
-    this.editorEn.create()
   }
 }
 </script>
 <style lang="scss" scoped>
-.about{
-  padding:10px;
-  flex-grow: 1;
-  .empty, .success{
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    background: #fffdee;
-    border: 1px solid #d7c985;
-  }
-  .success{
-    background: #ebffeb;
-    border: 1px solid #78de9b;
-    margin-bottom: 10px;
-  }
-  span{
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  input{
-    width:100%;
-    box-sizing: border-box;
-  }
-  button{
-    float: right;
-    margin-top: 10px;
-    background: #00ff00;
-  }
-}
+@import '../style/common';
 </style>
 
 
