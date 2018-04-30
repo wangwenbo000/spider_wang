@@ -88,6 +88,7 @@ var ueConfig = {
     '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid',
     '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso',
     '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'
-  ] /* 列出的文件类型 */
+  ], /* 列出的文件类型 */
+  'imageDelUrl': '/apix/upload/eUpload'
 };
 export default ueConfig;

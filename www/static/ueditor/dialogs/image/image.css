@@ -892,3 +892,17 @@
 #search .searchList .clearFloat{
     clear: both;
 }
+
+#online li a.del {
+    width: auto;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    color: #ffe5e5;
+    background-color: #ee6969;
+    padding: 0 4px;
+    border-radius: 2px;
+    border: 0;
+    z-index: 3;
+    text-decoration: none;
+}

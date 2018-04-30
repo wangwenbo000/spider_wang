@@ -74,7 +74,7 @@ module.exports = class extends adminBase {
       case 'uploadimage':
         const file = this.file('upfile');
         const folder = 'editor/';
-        const fileKey = folder + '_' + think.datetime(new Date(), 'YYYYMMDDHHmmss') + '_' + randomStr + file.type.replace('image/', '.');
+        const fileKey = folder + think.datetime(new Date(), 'YYYYMMDDHHmmss') + '_' + randomStr + file.type.replace('image/', '.');
         const reply = await imagesBucket.putFile(fileKey, file.path);
         this.json({
           'state': 'SUCCESS',
@@ -91,6 +91,16 @@ module.exports = class extends adminBase {
           'list': list,
           'start': 0,
           'total': list.length
+        });
+        break;
+      case 'delImage':
+        let path = this.get('path');
+        path = path.replace('http://' + qc.url + '/', '');
+        // console.log(path);
+        await imagesBucket.key(path).remove();
+        this.json({
+          'state': 'SUCCESS',
+          'message': '图床资源删除成功！'
         });
         break;
     }
