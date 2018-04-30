@@ -1,7 +1,7 @@
 import qiniu from 'node-qiniu';
 import ueConfig from './uploadConfig';
 import axios from 'axios';
-import { delimiter } from 'path';
+// import { delimiter } from 'path';
 const adminBase = require('../adminBase.js');
 
 const qc = think.config('qiniu');
@@ -18,6 +18,7 @@ module.exports = class extends adminBase {
   async uploadAction() {
     const file = this.file('file');
     const id = this.post('id');
+    const uuid = this.post('uuid');
     const coverName = this.post('coverName');
     const folder = 'spider/swiper/';
 
@@ -26,6 +27,7 @@ module.exports = class extends adminBase {
     await this.model('image').add({
       key: fileKey,
       sid: id,
+      uuid: uuid,
       date: think.datetime(),
       folder: folder,
       uid: 0

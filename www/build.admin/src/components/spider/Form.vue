@@ -369,6 +369,7 @@ export default {
       categoryName: '',
       coverName: '',
       saveId: null,
+      saveUuid: null,
       editFiles: [],
       bar: {
         color: ['#3b3b8f'],
@@ -539,7 +540,6 @@ export default {
     if (this.$route.query.action === 'edit') {
       await this.getDetial()
       this.info = { ...this.$store.state.Spider.detial }
-      // this.info = Object.assign({}, this.$store.state.Spider.detial)
       this.editFiles = this.$store.state.Spider.image
       this.coverName = this.info.cover
     }
@@ -569,21 +569,46 @@ export default {
     }
   },
   methods: {
+    /**
+     * 提交发布请求
+     * 会首先进行表单核验，核验成功后会准备提交数据
+     * 获取当前页面的状态「编辑」/「发布」
+     * @TODO: 获得记录返回
+     * 触发上传组件 @inputFile ()
+     * 判断待上传文件是否清空 @isNewFile ()
+     * 返回列表页
+     */
+    async validateBeforeSubmit () {
+      const result = await this.$validator.validateAll()
+      const action = this.$route.query.action
+      if (result) {
+        this.info.status = 1
+        this.info.chart = this.info.chart.join(',')
+        this.info.contentCn = this.$refs.Editor.setEditorContent()
+        this.info.contentEn = this.$refs.Editore.setEditorContent()
+        const id = await this.addSpiderData({
+          data: this.info,
+          action: action
+        })
+        this.saveId = action === 'add' ? id.data.data.id : this.info.id
+        this.saveUuid = action === 'add' ? id.data.data.uuid : this.$route.query.id
+        // 开始上传文件
+        this.$refs.upload.active = true
+        this.isNewFile()
+        return false
+      }
+    },
+    isNewFile () {
+      if (this.$refs.upload.files.length === 0) {
+        this.back()
+      }
+    },
     back () {
       this.$router.replace({
         path: this.$route.query.redirect
       })
     },
-    openMap () {
-      if (this.info.local.name === '') {
-        alert('请输入搜索地址')
-        return false
-      }
-      var iTop = (window.screen.availHeight - 30 - 1000) / 2
-      var iLeft = (window.screen.availWidth - 10 - 800) / 2
-      window.open('https://www.google.com/maps/search/' + this.info.local.name, 'sharer', 'toolbar=0,status=0,width=1000,height=800,top=' + iTop + ',left=' + iLeft)
-      return false
-    },
+
     inputFile (newFile, oldFile) {
       if (newFile && !oldFile) {
         // console.log('add', newFile)
@@ -607,30 +632,13 @@ export default {
         }
       }
     },
-    async validateBeforeSubmit () {
-      const result = await this.$validator.validateAll()
-      const action = this.$route.query.action
-      if (result) {
-        this.info.status = 1
-        this.info.chart = this.info.chart.join(',')
-        this.info.contentCn = this.$refs.Editor.setEditorContent()
-        this.info.contentEn = this.$refs.Editore.setEditorContent()
-        const id = await this.addSpiderData({
-          data: this.info,
-          action: action
-        })
-        this.saveId = action === 'add' ? id.data.data : this.$route.query.id
-        // 开始上传文件
-        this.$refs.upload.active = true
-        this.isNewFile()
-        return false
-      }
+
+    beforeSend (newFile) {
+      newFile.data.id = this.saveId
+      newFile.data.uuid = this.saveUuid
+      newFile.data.coverName = this.coverName
     },
-    isNewFile () {
-      if (this.$refs.upload.files.length === 0) {
-        this.back()
-      }
-    },
+
     async saveDraft () {
       const action = this.$route.query.action
       this.info.status = 0
@@ -643,6 +651,30 @@ export default {
       // 开始上传文件
       this.$refs.upload.active = true
       this.isNewFile()
+    },
+
+    removeCover (file) {
+      this.$refs.upload.remove(file)
+    },
+    async removeCoverFromDBandServer (file) {
+      const delAction = window.confirm('确定要删除这条已上传资源么？')
+      if (delAction) {
+        await this.delSource(file)
+        const list = this.editFiles.filter(value => {
+          return value.id !== file.id
+        })
+        this.editFiles = list
+      }
+    },
+    openMap () {
+      if (this.info.local.name === '') {
+        alert('请输入搜索地址')
+        return false
+      }
+      var iTop = (window.screen.availHeight - 30 - 1000) / 2
+      var iLeft = (window.screen.availWidth - 10 - 800) / 2
+      window.open('https://www.google.com/maps/search/' + this.info.local.name, 'sharer', 'toolbar=0,status=0,width=1000,height=800,top=' + iTop + ',left=' + iLeft)
+      return false
     },
     nodeClick (info) {
       this.$router.push({
@@ -661,23 +693,7 @@ export default {
       this.info.subfamily = node.name
       this.subfamilyChoose = false
     },
-    beforeSend (newFile) {
-      newFile.data.id = this.saveId
-      newFile.data.coverName = this.coverName
-    },
-    removeCover (file) {
-      this.$refs.upload.remove(file)
-    },
-    async removeCoverFromDBandServer (file) {
-      const delAction = window.confirm('确定要删除这条已上传资源么？')
-      if (delAction) {
-        await this.delSource(file)
-        const list = this.editFiles.filter(value => {
-          return value.id !== file.id
-        })
-        this.editFiles = list
-      }
-    },
+
     ...mapActions([
       'addSpiderData',
       'getDetial',

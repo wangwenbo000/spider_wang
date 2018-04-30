@@ -1,5 +1,5 @@
 module.exports = {
-  qnUrl: 'http://oux1h5x17.bkt.clouddn.com/',
+  qnUrl: process.env.NODE_ENV === 'development' ? 'http://p7y86muqn.bkt.clouddn.com/' : 'http://src.tsreptile.com/',
   spiderCoverFolder: 'spider/swiper/',
   apiBaseUrl: '/apix/'
 }

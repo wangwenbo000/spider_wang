@@ -36,7 +36,7 @@
                      query:{
                        action:'edit',
                        cate:$route.params.id,
-                       id:list.id,
+                       id:list.uuid,
                        name:$route.params.name,
                        redirect:$route.path
                        }}" class="list-title-link">
@@ -58,7 +58,7 @@
                      query:{
                        action:'edit',
                        cate:$route.params.id,
-                       id:list.id,
+                       id:list.uuid,
                        name:$route.params.name,
                        redirect:$route.path
                        }}">

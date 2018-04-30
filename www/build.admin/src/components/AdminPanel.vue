@@ -25,6 +25,9 @@
       <router-link tag="h1" :to="{name:'Admin'}">TARANTULRS SOUL · 爬魂 / ADMIN PANEL</router-link>
     </div>
     <ul class="top-right">
+      <li>
+        <a href="http://tsreptile.com/" target="_blank">🌐 预览站点</a>
+      </li>
       <li>{{userInfo.username}}</li>
       <li>
         <a href="javascript:;" @click="openChangePassModal=true">修改密码</a>

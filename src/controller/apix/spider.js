@@ -56,9 +56,12 @@ module.exports = class extends adminBase {
     data.subfamily = data.subfamily;
     switch (action) {
       case 'add':
-        data.uuid = think.uuid('v4');
+        data.uuid = think.uuid('v1');
         const add = await this.model('spider').add(data);
-        return this.success(add);
+        return this.success({
+          id: add,
+          uuid: data.uuid
+        });
       case 'edit':
         delete data.date;
         const update = await this.model('spider').update(data);
@@ -68,8 +71,8 @@ module.exports = class extends adminBase {
 
   async getDetialAction() {
     const id = this.post('id');
-    const detial = await this.model('spider').where({id: id}).find();
-    const image = await this.model('image').where({sid: id}).select();
+    const detial = await this.model('spider').where({uuid: id}).find();
+    const image = await this.model('image').where({uuid: id}).select();
     return this.success({
       data: detial,
       src: image
