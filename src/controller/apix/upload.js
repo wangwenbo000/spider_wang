@@ -76,7 +76,7 @@ module.exports = class extends adminBase {
       case 'uploadimage':
         const file = this.file('upfile');
         const folder = 'editor/';
-        const fileKey = folder + think.datetime(new Date(), 'YYYYMMDDHHmmss') + '_' + randomStr + file.type.replace('image/', '.');
+        const fileKey = folder + think.datetime(new Date(), 'YYYY/MM/DD/HHmmss') + '_' + randomStr + file.type.replace('image/', '.');
         const reply = await imagesBucket.putFile(fileKey, file.path);
         this.json({
           'state': 'SUCCESS',
