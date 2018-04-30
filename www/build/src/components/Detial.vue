@@ -281,9 +281,9 @@ export default {
           return '极慢'
         case 1:
           return '缓慢'
-        case 3:
+        case 2:
           return '快'
-        case 4:
+        case 3:
           return '飞速'
       }
     },
