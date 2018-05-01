@@ -16,7 +16,7 @@
               ref="mySwiper">
         <swiper-slide v-for="(i,index) in imageSwiper"
                       :key="index">
-          <img :src="$conf.qnUrl+i.key+'?imageView2/5/w/800/h/400'">
+          <img :src="$conf.qnUrl+i.key+'?imageView2/0/h/400'">
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
@@ -33,8 +33,8 @@
         </div>
       </div>
       <!-- 描述 -->
-      <p class="describe" v-show="$i18n.locale==='en'">
-        {{detialInfo.describeEn}}
+      <p class="describe" v-show="$i18n.locale==='en'" v-html="detialInfo.describeEn">
+        <!-- {{detialInfo.describeEn}} -->
       </p>
       <p class="describe" v-show="$i18n.locale==='cn'">
         {{detialInfo.describeCn}}
