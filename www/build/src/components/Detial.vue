@@ -16,7 +16,7 @@
               ref="mySwiper">
         <swiper-slide v-for="(i,index) in imageSwiper"
                       :key="index">
-          <img :src="$conf.qnUrl+i.key+'?imageView2/0/h/400'">
+          <img :src="$conf.qnUrl+i.key+'?imageView2/0/h/380'">
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
