@@ -18,8 +18,6 @@
       <span v-show="errors.has('titleCn')" class="help is-danger">⚠️ {{ errors.first('titleCn') }}</span>
       </td>
       <td colspan="2" rowspan="8" style="vertical-align:top;padding:0;">
-        <!-- <div class="editorTitle">中文详情描述: <span v-show="editWaitSign"><strong>🕕 文章加载中,请勿刷新页面... 两秒没反应请刷新</strong></span></div>
-        <script id="contentCn" style="color:#2b2b2b;" name="content" type="text/plain"></script> -->
         <ul class="tabBar">
           <li @click="showEditor=0" :class="showEditor===0&&'tab-active'">中文内容撰写</li>
           <li @click="showEditor=1" :class="showEditor===1&&'tab-active'">英文内容撰写</li>
@@ -182,41 +180,7 @@ export default {
       return this.$store.state.Article.image
     }
   },
-  destroyed () {
-    console.log('a')
-    this.editor.destroy()
-  },
   mounted () {
-    // var E = window.wangEditor
-    // this.editorCn = new E('#contentCn')
-    // this.editorEn = new E('#contentEn')
-    // this.editorCn.customConfig.pasteFilterStyle = false
-    // this.editorEn.customConfig.pasteFilterStyle = false
-    // this.editorCn.customConfig.onchange = (html) => {
-    //   this.info.contentCn = html
-    // }
-    // this.editorEn.customConfig.onchange = (html) => {
-    //   this.info.contentEn = html
-    // }
-    // this.editorCn.create()
-    // this.editorEn.create()
-    // this.editor = UE.getEditor('contentCn', {
-    //   // autoHeightEnabled: true,
-    //   // autoFloatEnabled: true,
-    //   initialFrameWidth: 776,
-    //   topOffset: 51,
-    //   initialFrameHeight: 900
-    // })
-    // this.editor.addListener('ready', () => {
-    //   this.editor.setContent(this.info.contentCn)
-    //   if (this.info.contentCn === '') {
-    //     this.editWaitSign = true
-    //     setTimeout(() => {
-    //       this.editor.setContent(this.info.contentCn)
-    //       this.editWaitSign = false
-    //     }, 2000)
-    //   }
-    // })
     this.info.category = parseInt(this.$route.query.cate)
     this.categoryName = this.$route.query.name
   },
@@ -225,11 +189,6 @@ export default {
       this.info.category = o.cate
       this.categoryName = o.name
     }
-    // 'info': function (o) {
-    //   this.editor.addListener('ready', () => {
-    //     this.editor.setContent(o.contentCn)
-    //   })
-    // }
   },
   methods: {
     ...mapActions([
@@ -242,12 +201,10 @@ export default {
         path: this.$route.query.redirect
       })
     },
-    setEditorContent () {
-      this.info.contentCn = this.editor.getContent()
-    },
     async saveDraft () {
       const action = this.$route.query.action
-      this.setEditorContent()
+      this.info.contentCn = this.$refs.Editor.setEditorContent()
+      this.info.contentEn = this.$refs.Editore.setEditorContent()
       this.info.status = 0
       const add = await this.addArticle({
         data: this.info,

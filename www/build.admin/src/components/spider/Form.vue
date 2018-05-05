@@ -643,6 +643,8 @@ export default {
       const action = this.$route.query.action
       this.info.status = 0
       this.info.chart = this.info.chart.join(',')
+      this.info.contentCn = this.$refs.Editor.setEditorContent()
+      this.info.contentEn = this.$refs.Editore.setEditorContent()
       const id = await this.addSpiderData({
         data: this.info,
         action: action

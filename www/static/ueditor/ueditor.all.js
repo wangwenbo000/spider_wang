@@ -17095,6 +17095,7 @@ UE.plugins['fiximgclick'] = (function () {
                     imgPos = domUtils.getXY(target),
                     iframePos = domUtils.getXY(me.editor.iframe),
                     editorPos = domUtils.getXY(resizer.parentNode);
+
                 domUtils.setStyles(resizer, {
                     'width': target.width + 'px',
                     'height': target.height + 'px',
@@ -17600,10 +17601,6 @@ UE.plugins['autofloat'] = function() {
             }
             domUtils.on(window, ['scroll','resize'], updateFloating);
             me.addListener('keydown', defer_updateFloating);
-
-            //适用于在DIV scrollbox中滚动，但页面不滚动的浮动toolbar
-            var scrollBox = document.querySelector(UEDITOR_CONFIG.childScrollNode);
-            domUtils.on(scrollBox, ['scroll','resize'], updateFloating);
 
             me.addListener('beforefullscreenchange', function (t, enabled){
                 if (enabled) {
@@ -29026,7 +29023,7 @@ UE.ui = baidu.editor.ui = {};
             return '<div id="##" class="%%">' +
                 '<div id="##_toolbarbox" class="%%-toolbarbox">' +
                 (this.toolbars.length ?
-                    '<div id="##_toolbarboxouter" class="edui1_iframeholder%%-toolbarboxouter"><div class="%%-toolbarboxinner">' +
+                    '<div id="##_toolbarboxouter" class="%%-toolbarboxouter"><div class="%%-toolbarboxinner">' +
                         this.renderToolbarBoxHtml() +
                         '</div></div>' : '') +
                 '<div id="##_toolbarmsg" class="%%-toolbarmsg" style="display:none;">' +

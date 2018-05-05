@@ -1,10 +1,10 @@
 <template>
-<div class="editor-plugin">
+<div class="editor-plugin" style="font-weight:normal;">
   <div class="editorTitle">
     🖋 请撰写描述:
     <span v-show="editWaitSign"><strong>🕕 文章加载中,请勿刷新页面... 两秒没反应请刷新</strong></span>
   </div>
-  <script :id="editorName" style="color:#2b2b2b;" name="content" type="text/plain" :ref="editorName"></script>
+  <script :id="editorName" style="color:#2b2b2b;" name="content" type="text/plain" ></script>
 </div>
 </template>
 <script>
@@ -23,8 +23,8 @@ export default {
       default: () => {
         return {
           initialFrameWidth: 776,
-          initialFrameHeight: 1500,
-          topOffset: 51
+          initialFrameHeight: 1220,
+          topOffset: 50
         }
       }
     },
@@ -39,11 +39,14 @@ export default {
     }
   },
   mounted () {
-    this.editor = UE.getEditor(this.editorName, this.config)
-    setTimeout(() => {
-      this.editor.setContent(this.context)
-      this.editWaitSign = false
-    }, this.timer)
+    console.log('asss')
+    this.$nextTick(() => {
+      this.editor = UE.getEditor(this.editorName, this.config)
+      setTimeout(() => {
+        this.editor.setContent(this.context)
+        this.editWaitSign = false
+      }, 800)
+    })
   },
   methods: {
     setEditorContent () {
@@ -59,12 +62,9 @@ export default {
 // 编辑器标题
 .editorTitle{
   height: 30px;
-  // border: 1px solid #9bd6ff;
   background: #e1f2ff;
-  // margin-bottom: 10px;
   line-height: 30px;
   text-indent: 10px;
-  // border-radius: 4px;
   span{
     padding: 4px;
     background: #ebd8be;
