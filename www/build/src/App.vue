@@ -1,17 +1,18 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
-    <video autoplay muted loop playsinline src="./assets/mov.mp4" class="bgmov">
+    <Search></Search>
+    <!-- <video autoplay muted loop playsinline src="./assets/mov.mp4" class="bgmov">
       您的浏览器不支持 video 标签。
-    </video>
-    <div class="bgCover"></div>
+    </video> -->
+    <!-- <div class="bgCover"></div> -->
     <transition name="fadeIn" mode="out-in">
       <router-view></router-view>
     </transition>
     <transition name="fade">
     <Spinner v-show="loading"></Spinner>
     </transition>
-    <div class="footer" v-if="$route.name!=='Video'">
+    <!-- <div class="footer" v-if="$route.name!=='Video'">
       <div>
         Copyright © 2014-2017 {{$conf.icp}}
         <br>
@@ -19,13 +20,14 @@
       </div>
       <img src="./assets/footerLogo.png" alt="">
       <img :src="$conf.qnUrl+'qrcodeTop.png'" class="qrcode">
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar'
 import Spinner from '@/components/Spinner'
+import Search from '@/components/Search'
 require('iphone-inline-video')
 export default {
   name: 'app',
@@ -48,12 +50,14 @@ export default {
   },
   components: {
     NavBar,
-    Spinner
+    Spinner,
+    Search
   }
 }
 </script>
 
 <style lang='scss'>
+@import './components/style/panel';
 .empty{
     width: 100%;
     height: 40px;
@@ -165,9 +169,16 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 html{
-  background: #111;
+  background: rgb(32, 35, 46);
   width: 100%;
   height: 100%;
+}
+#app{
+  background: #262935;
+  max-width: 1000px;
+  margin: 20px auto;
+  border-radius: 6px;
+  padding: 10px;
 }
 ul{
   list-style: none;
@@ -198,7 +209,7 @@ a{
   background-size: cover;
 }
 .bgCover{
-  background: url(./assets/bg.png) center;
+  // background: url(./assets/bg.png) center;
   position: fixed;
   right: 0;
   bottom: 0;
@@ -209,8 +220,8 @@ a{
 .footer{
   // position: fixed;
   // z-index: -1;
-  width: 920px;
-  margin: 20px auto;
+  // width: 920px;
+  margin: 20px auto 10px auto;
   bottom: 12px;
   color: #666;
   font-size: 12px;
@@ -219,8 +230,8 @@ a{
   align-items: center;
   text-align: right;
   line-height: 20px;
-  border-top: 1px dotted #323950;
-  padding-top: 20px;
+  // border-top: 1px dotted #323950;
+  // padding-top: 20px;
   // font-weight: bold;
   span{
     color: #ff0000;

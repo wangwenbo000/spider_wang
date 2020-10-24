@@ -1,19 +1,22 @@
 <template>
   <div class="hello">
-    <Search></Search>
     <Tags></Tags>
+    <div class="panel">
     <transition name="fadeIn" mode="out-in">
+
       <router-view>
       </router-view>
+
     </transition>
-    <Articles></Articles>
+    </div>
+    <!-- <Articles></Articles> -->
   </div>
 </template>
 
 <script>
 import Tags from '@/components/Tags'
 import Articles from '@/components/Articles'
-import Search from '@/components/Search'
+
 import {
   mapActions,
   mapMutations,
@@ -22,8 +25,8 @@ export default {
   name: 'main-frame',
   components: {
     Tags,
-    Articles,
-    Search
+    Articles
+
   },
   computed: {
     ...mapState({

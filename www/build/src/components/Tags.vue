@@ -1,6 +1,6 @@
 <template>
 <div class="tagWapper">
-  <div class="title">{{$t('message.category')}}</div>
+  <!-- <div class="title">{{$t('message.category')}}</div> -->
     <ul class="tags">
       <router-link :to="{
                     name: 'CateList',
@@ -11,8 +11,9 @@
                    v-for="(list, index) in spiderList"
                    :key="list.id">
         <div>
-          🔸 {{list.name}}
+          {{list.name}}
         </div>
+        <!-- <span>{{list.children.length}}</span> -->
         <animate-number from="1"
                         :to="list.children.length"
                         duration="1000"
@@ -34,8 +35,8 @@ export default {
 </script>
 <style lang="scss">
   .tagWapper{
-    width: 920px;
-    margin: 60px auto 0 auto;
+    // width: 920px;
+    margin: 20px auto 0 auto;
     position: relative;
     .title{
       color:#959EA8;
@@ -50,42 +51,50 @@ export default {
     flex-wrap: wrap;
     .active{
       background: #fff;
-      color:#735DEE;
+      color:#1f232e;
+      font-weight: bold;
     }
     li{
+      width: 135px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: #363D4C;
       color: #959EA8;
-      border-radius: 4px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-size: 14px;
       height: 30px;
       padding: 4px 14px;
-      margin: 8px 8px 0 0;
+      margin: 2px 2px 0 0;
       // transition: all .3s;
-      background: linear-gradient(#313950 30%, #272a33 90%);
-      border: 1px solid #131a2e;
-      text-shadow: 0 0 12px rgba(0,0,0,.6);
+      background: linear-gradient(#252935 10%, #282c39 90%);
+      border: 1px solid #1f232e;
+      // text-shadow: 0 0 12px rgba(0,0,0,.6);
       cursor: pointer;
+      &:nth-child(6n){
+        margin-right: 0;
+      }
       &:hover{
-        background: linear-gradient(#272a33 30%, #313950 90%);;
-        color:#735DEE;
+        // background: linear-gradient(#272a33 30%, #313950 90%);;
+        // background: #262935;
+        background: #fff;
+        color: #1f232e;
+        // color:#fff;
       }
-      &:active{
-        background: darken(#735DEE, 10%);
-      }
+      // &:active{
+      //   background: darken(#735DEE, 10%);
+      // }
       span{
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0 0 0 16px;
+        // padding: 0 0 0 16px;
         height: 38px;
-        margin-left: 16px;
-        border-left: 1px solid #1d2231;
-        font-weight: 500;
-        color: #9988f9;
-        font-size: 20px;
+        // margin-left: 16px;
+        // border-left: 1px solid #1d2231;
+        font-weight: bold;
+        color: #535bfb;
+        // font-size: 20px;
         font-family: 'Roboto';
       }
     }

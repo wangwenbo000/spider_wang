@@ -1,5 +1,5 @@
 <template>
-  <div class="panel">
+  <div>
     <div class="panel-title-bar">
       <h3 class="title">{{$route.params.list}}</h3>
       <router-link tag="i" :to="{name:'Main'}" class="iconfont close">
@@ -40,5 +40,5 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-@import './style/panel';
+// @import './style/panel';
 </style>

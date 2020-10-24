@@ -34,12 +34,15 @@
                   :class="$route.name === 'Main'?'active':''">
         <a href="#">{{ $t("navbar.HOME") }}</a>
       </router-link>
-      <router-link tag="li" :to="{name:'Video',params:{vid:'t0150btuqbk',title:'TARANTULRS SOUL'}}">
+      <!-- <router-link tag="li" :to="{name:'Video',params:{vid:'t0150btuqbk',title:'TARANTULRS SOUL'}}">
         <a href="#">{{ $t("navbar.VIDEO") }}</a>
+      </router-link> -->
+      <router-link tag="li" :to="{name:'Video',params:{vid:'t0150btuqbk',title:'TARANTULRS SOUL'}}">
+        <a href="#">{{ $t("navbar.ARTICLE") }}</a>
       </router-link>
-      <router-link tag="li" :to="{name:'About'}">
+      <!-- <router-link tag="li" :to="{name:'About'}">
         <a href="#">{{ $t("navbar.ABOUT") }}</a>
-      </router-link>
+      </router-link> -->
       <router-link tag="li" :to="{name:'Store'}">
         <a href="#">{{ $t("navbar.STORE") }}</a>
       </router-link>
@@ -66,17 +69,18 @@
   }
 </script>
 <style lang='scss'>
+$border-color:#20232e;
 .navbar{
-  width: 958px;
+  // width: 958px;
   height: 50px;
   border-radius: 6px;
-  background: #262A33;
+  background: #252935;
   display: flex;
-  margin: 20px auto;
+  margin: 0 auto;
   justify-content: space-between;
   z-index: 1000;
-  background: linear-gradient(#313950 30%, #272a33 90%);
-  border: 1px solid #131a2e;
+ background: linear-gradient(#252935 10%, #282c39 90%);
+    border: 1px solid $border-color;
   .nav-left{
     display: flex;
     align-items: center;
@@ -89,14 +93,15 @@
     }
     .lang{
       display: flex;
-      background: linear-gradient(#272a33 30%, #313950 90%);
-      box-shadow: 0 0 6px rgba(0, 0, 0, .4) inset;
+      // background: linear-gradient(#272a33 30%, #313950 90%);
+      // box-shadow: 0 0 6px rgba(0, 0, 0, .4) inset;
+      background: #1f232e;
       font-size: 12px;
       color: #525658;
       margin-left: 20px;
       border-radius: 3px;
       overflow: hidden;
-      border: 1px solid #343c51;
+      // border: 1px solid $border-color;
       cursor: pointer;
       li{
         padding: 2px 10px;
@@ -114,7 +119,7 @@
         }
       }
       .active{
-        background-color: #735DEE;
+        background-color: #535bfb;
         color: #fff;
       }
     }
@@ -123,7 +128,8 @@
     display: flex;
     font-size: 12px;
     .active{
-      background: linear-gradient(#735DEE 30%, rgb(81, 65, 173) 90%);
+      // background: linear-gradient(#735DEE 30%, rgb(81, 65, 173) 90%);
+      background: #20232e;
     }
     li {
       position: relative;
@@ -132,14 +138,15 @@
         height: 50px;
         align-items: center;
         justify-content: center;
-        color: #959EA8;
-        text-shadow: 1px 1px 0 #4b2fe9;
+        color: #fff;
+        // text-shadow: 1px 1px 0 #4b2fe9;
         padding: 0 20px;
-        border-left: 1px solid #1d2231;
-        font-weight: 500;
+        border-left: 1px solid #1e232e;
+        font-weight: bold;
         font-size: 14px;
         &:hover{
-          background: linear-gradient(#735DEE 30%, rgb(81, 65, 173) 90%);
+          // background: linear-gradient(#262935 30%, rgb(81, 65, 173) 90%);
+          background: #1e232e;
         }
         &:active{
           background: darken(#735DEE, 10%);

@@ -5,7 +5,8 @@ const messages = {
       HOME: 'HOME',
       ABOUT: 'ABOUT',
       STORE: 'STORE',
-      VIDEO: 'VIDEO'
+      VIDEO: 'VIDEO',
+      ARTICLE: 'ARTICLE'
     },
     message: {
       empty: '🕷 SORRY! THE DATA IS EMPTY',
@@ -27,7 +28,8 @@ const messages = {
       HOME: '首页',
       ABOUT: '关于',
       STORE: '商城',
-      VIDEO: '视频'
+      VIDEO: '视频',
+      ARTICLE: '视频'
     },
     message: {
       empty: '🕷 抱歉！该分类下还没有数据',
