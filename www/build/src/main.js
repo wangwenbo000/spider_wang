@@ -13,8 +13,8 @@ Vue.use(VueScrollTo)
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: 'http://src.tsreptile.com/error.jpg',
-  loading: 'http://src.tsreptile.com/loading.jpg',
+  error: 'http://src.tspahun.com/error.jpg',
+  loading: 'http://src.tspahun.com/loading.jpg',
   attempt: 1,
   // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
   listenEvents: ['scroll']
